@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PlacementManagement.DAL\PlacementManagement.DAL.csproj" />
+    <ProjectReference Include="..\PlacementManagement.BAL\PlacementManagement.BAL.csproj" />
   </ItemGroup>
 
 </Project>

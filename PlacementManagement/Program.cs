@@ -1,13 +1,16 @@
 using PlacementManagement.DAL;
 using PlacementManagement.DAL.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using CRUDwithGenericRepository.Repository.Implementations;
+using PlacementManagement.BAL.Services.Interfaces;
+using PlacementManagement.DAL.Repository.Implementations;
+using PlacementManagement.BAL.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddTransient<IEmployeeServices, EmployeeServices>();
 
 //DI
 builder.Services.AddDbContext<PlacementManagementAppDbContext>(options =>

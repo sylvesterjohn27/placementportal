@@ -1,9 +1,17 @@
 ﻿using PlacementManagement.DAL.Models;
-using PlacementManagement.DAL.Repository.Interface;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace PlacementManagement.DAL.Repository.Interface
 {
-    public interface IEmployeeRepository:IGenericRepository<Employee>
+    public interface IEmployeeRepository
     {
+        List<Employee> GetAllEmployees();
+        Employee GetEmployeeById(int id);
+        void AddorEditEmployee(Employee employee);
+        void DeleteEmployee(Employee employee);
     }
 }

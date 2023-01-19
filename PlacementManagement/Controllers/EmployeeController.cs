@@ -2,16 +2,18 @@
 using Microsoft.AspNetCore.Mvc;
 using PlacementManagement.DAL.Repository.Interface;
 using PlacementManagement.DAL.Models;
+using PlacementManagement.BAL.Services.Interfaces;
+using PlacementManagement.BAL.Models;
 
 namespace PlacementManagement.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmployeeServices _employeeService;
 
-        public EmployeeController(IUnitOfWork unitOfWork)
+        public EmployeeController(IEmployeeServices employeeService)
         {
-            _unitOfWork = unitOfWork;
+            _employeeService = employeeService;
         }
 
         [HttpGet]
@@ -19,25 +21,8 @@ namespace PlacementManagement.Controllers
         {
             try
             {
-                var employees = _unitOfWork.Employee.GetAll();
-
-                List<EmployeeViewModel> employeesList = new List<EmployeeViewModel>();  
-
-                foreach (var employee in employees)
-                {
-                    var emp = new EmployeeViewModel()
-                    {
-                        Id = employee.Id,
-                        Name = employee.Name,
-                        Email = employee.Email,
-                        Department = employee.Department,
-                        Salary = employee.Salary,
-                        DateOfBirth = employee.DateOfBirth
-                    };
-                    employeesList.Add(emp);
-                }
-
-                return View(employeesList);
+                var employees = _employeeService.GetAllEmployees();
+                return View(employees);
             }
             catch (Exception ex)
             {
@@ -59,17 +44,7 @@ namespace PlacementManagement.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var employee = new Employee()
-                    {
-                        Name = model.Name,
-                        Email = model.Email,
-                        Department = model.Department,
-                        Salary = model.Salary,
-                        DateOfBirth = model.DateOfBirth
-                    };
-
-                    _unitOfWork.Employee.Insert(employee);
-                    _unitOfWork.Save();
+                    _employeeService.AddorEditEmployee(model);
                     TempData["SuccessMessage"] = "New employee created.";
                     return RedirectToAction("Index");
                 }
@@ -87,26 +62,16 @@ namespace PlacementManagement.Controllers
         {
             try
             {
-                var employee = _unitOfWork.Employee.GetById(Id);
-
+                var employee = _employeeService.GetEmployeeById(Id);
                 if (employee != null)
-                {
-                    var employeeViewModel = new EmployeeViewModel()
-                    {
-                        Id = employee.Id,
-                        Name = employee.Name,
-                        Email = employee.Email,
-                        Department = employee.Department,
-                        Salary = employee.Salary,
-                        DateOfBirth = employee.DateOfBirth
-                    };
-                    return View(employeeViewModel);
+                {                   
+                    return View(employee);
                 }
                 else
                 {
                     TempData["ErrorMessage"] = $"Employee details not found with ID: {Id}";
                     return RedirectToAction("Index");
-                }               
+                }
             }
             catch (Exception ex)
             {
@@ -122,18 +87,7 @@ namespace PlacementManagement.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var employee = new Employee()
-                    {
-                        Id = model.Id,
-                        Name = model.Name,
-                        Email = model.Email,
-                        Department = model.Department,
-                        Salary = model.Salary,
-                        DateOfBirth = model.DateOfBirth
-                    };
-
-                    _unitOfWork.Employee.Update(employee);
-                    _unitOfWork.Save();
+                    _employeeService.AddorEditEmployee(model);                
                     TempData["SuccessMessage"] = "Employee details updated.";
                     return RedirectToAction("Index");
                 }
@@ -151,20 +105,10 @@ namespace PlacementManagement.Controllers
         {
             try
             {
-                var employee = _unitOfWork.Employee.GetById(Id);
-
+                var employee = _employeeService.GetEmployeeById(Id);
                 if (employee != null)
                 {
-                    var employeeViewModel = new EmployeeViewModel()
-                    {
-                        Id = employee.Id,
-                        Name = employee.Name,
-                        Email = employee.Email,
-                        Department = employee.Department,
-                        Salary = employee.Salary,
-                        DateOfBirth = employee.DateOfBirth
-                    };
-                    return View(employeeViewModel);
+                   return View(employee);
                 }
                 return RedirectToAction("Index");
             }
@@ -180,12 +124,9 @@ namespace PlacementManagement.Controllers
         {
             try
             {
-                var employee = _unitOfWork.Employee.GetById(Id);
-
-                if (employee != null)
+                var isDeleted = _employeeService.DeleteEmployee(Id);
+                if (isDeleted)
                 {
-                    _unitOfWork.Employee.Delete(employee);
-                    _unitOfWork.Save();
                     TempData["SuccessMessage"] = "Employee details deleted.";
                     return RedirectToAction("Index");
                 }
