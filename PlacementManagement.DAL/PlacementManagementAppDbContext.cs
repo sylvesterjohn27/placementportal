@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PlacementManagement.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -8,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace PlacementManagement.DAL
 {
-    public class PlacementManagementAppDbContext : DbContext
+    public class PlacementManagementAppDbContext : IdentityDbContext
     {
         public PlacementManagementAppDbContext(DbContextOptions options) : base(options)
         {
         }
-        public DbSet<Employee> Employees { get; set; }       
+        public DbSet<Employee> Employees { get; set; }
+       
     }
 }
