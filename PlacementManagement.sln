@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlacementManagement", "Plac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlacementManagement.BAL", "PlacementManagement.BAL\PlacementManagement.BAL.csproj", "{80A64FCA-5AA3-4D3D-8183-43A0B0F0DEF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlacementManagement.DAL", "PlacementManagement.DAL\PlacementManagement.DAL.csproj", "{065A5B26-CAF8-406A-9982-F934BBE4D88E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlacementManagement.DAL", "PlacementManagement.DAL\PlacementManagement.DAL.csproj", "{065A5B26-CAF8-406A-9982-F934BBE4D88E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

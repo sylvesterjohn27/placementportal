@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - PlacementManagement</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/PlacementManagement.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -25,6 +26,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employee Master</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -32,6 +36,29 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @{
+                var errorMessage = TempData["ErrorMessage"]?.ToString();
+                var successMessage = TempData["SuccessMessage"]?.ToString();
+
+                if (!string.IsNullOrWhiteSpace(@successMessage))
+                {
+                    <div class="alert alert-success" role="alertdialog">
+                        @successMessage
+                        <div class="float-end">
+                            &times;
+                        </div>
+                    </div>
+                }
+                else if (!string.IsNullOrWhiteSpace(@errorMessage))
+                {
+                    <div class="alert alert-danger" role="alertdialog">
+                        @errorMessage
+                        <div class="float-end">
+                            &times;
+                        </div>
+                    </div>
+                }
+            }
             @RenderBody()
         </main>
     </div>
@@ -41,6 +68,8 @@
             &copy; 2023 - PlacementManagement - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <script src="~/js/customjs.js"></script>
+    <script src="~/lib/font-awesome/js/all.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
