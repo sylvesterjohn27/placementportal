@@ -28,7 +28,7 @@ namespace PlacementManagement.DAL.Repository.Implementations
 
         public void AddorEditEmployee(Employee employee)
         {
-            if (employee.Id != 0)
+            if (employee.Id > 0)
                 _DbContext.Employees.Update(employee);
             else
                 _DbContext.Employees.Add(employee);   
