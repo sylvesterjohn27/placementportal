@@ -20,4 +20,8 @@
     <ProjectReference Include="..\PlacementManagement.BAL\PlacementManagement.BAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
 </Project>

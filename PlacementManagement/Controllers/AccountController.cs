@@ -6,6 +6,7 @@ using PlacementManagement.BAL.Models;
 using System.Text.Encodings.Web;
 using System.Text;
 using PlacementManagement.BAL.Services.Interfaces;
+using PlacementManagement.DAL.Models;
 
 namespace PlacementManagement.Controllers
 {
@@ -43,7 +44,20 @@ namespace PlacementManagement.Controllers
                                     model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Employee");
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    var roles = await _userManager.GetRolesAsync(user);
+                    if (roles.Contains("Company"))
+                    {
+                        return RedirectToAction("Index", "CompanyDashboard");
+                    }
+                    else if(roles.Contains("College"))
+                    {
+                        return RedirectToAction("Index", "CollegeDashboard");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Employee");
+                    }
                 }
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
@@ -107,7 +121,14 @@ namespace PlacementManagement.Controllers
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         //Redirect to Home page
                         TempData["SuccessMessage"] = "New user created.";
-                        return RedirectToAction("index", "Home");
+                        if(model.AccountTypeId==1)
+                        {
+                            return RedirectToAction("Index", "CollegeDashboard");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "CompanyDashboard");
+                        }
                     }
                     foreach (var error in result.Errors)
                     {
