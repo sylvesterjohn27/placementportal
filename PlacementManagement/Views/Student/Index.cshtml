@@ -1,0 +1,61 @@
+﻿@model List<PlacementManagement.BAL.Models.StudentViewModel>
+
+@{
+    ViewData["Title"] = "Student List";
+    var collegeId = ViewData["CollegeId"];
+}
+<form>
+    <button asp-action="Create" asp-route-id="@collegeId" class="btn btn-primary mb-3"><i class="fa fa-plus-circle" aria-hidden="true"></i> Create Student</button>
+    <div class="card">
+        <div class="card-header text-center">
+            <h3>@ViewData["Title"]</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-responsive table-bordered table-hover">
+                <thead>
+                    <tr class="table-active">
+                        <th>Id</th>
+                        <th>Student Name</th>
+                        <th>E-Mail</th>
+                        <th>College</th>
+                        <th>Department</th>
+                        <th>CGPA</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var student in Model)
+                        {
+                            <tr>
+                                <td>@student.Id</td>
+                                <td>@student.StudentName</td>
+                                <td>@student.Email</td>
+                                <td>@student.CollegeName</td>
+                                <td>@student.DepartmentName</td>
+                                <td>@student.CGPA</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a asp-controller="Student" asp-action="Edit" asp-route-id="@student.Id" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Edit</a>
+                                        <a asp-controller="Student" asp-action="Delete" asp-route-id="@student.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="">
+                                <div>
+                                    No student available at this moment!
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
