@@ -1,14 +1,6 @@
 ﻿using PlacementManagement.BAL.Models;
 using PlacementManagement.BAL.Services.Interfaces;
-using PlacementManagement.DAL.Models;
-using PlacementManagement.DAL.Repository.Implementations;
 using PlacementManagement.DAL.Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlacementManagement.BAL.Services.Implementations
 {
