@@ -19,6 +19,11 @@
                 <span asp-validation-for="PlacementDate" class="text-danger"></span>
             </div>
             <div class="mb-3">
+                @Html.DisplayNameFor(model => model.CollegeName)
+                @Html.DropDownListFor(model=>model.CollegeId,ViewBag.CollegeDetails as SelectList,"Select College",new { @class = "form-control"})
+                <span asp-validation-for="CollegeName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
                 @Html.LabelFor(model => model.Departments)
                 @Html.ListBoxFor(model => model.DepartmentIds,new MultiSelectList(Model.DepartmentDetails, "Value", "Text"), new { @class = "form-control", multiple = "multiple"})
             </div>

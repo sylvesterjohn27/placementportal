@@ -113,6 +113,36 @@ namespace PlacementManagement.BAL.Services.Implementations
             return null;
         }
 
+        public List<RegisterViewModel> GetUsers()
+        {
+            var users = _masterRepository.GetUsers();
+            var userList = new List<RegisterViewModel>();
+            foreach (var user in users)
+            {
+                var userDetails = new RegisterViewModel()
+                {
+                    Id = user.Id,
+                    Name = user.Name
+                };
+                userList.Add(userDetails);
+            }
+            return userList;
+        }
+
+        public RegisterViewModel GetUserById(int id)
+        {
+            var user = _masterRepository.GetUserById(id);
+            if (user != null)
+            {
+                var userDetails = new RegisterViewModel()
+                {
+                    Id = user.Id,
+                    Name = user.Name
+                };
+                return userDetails;
+            }
+            return null;
+      }
         public CollegeDepartmentViewModel GetDepartmentsByCollegeId(int collegeId)
         {            
             var departmentList = _masterRepository.GetDepartmentsByCollegeId(collegeId);

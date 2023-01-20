@@ -1,8 +1,8 @@
 ﻿using PlacementManagement.BAL.Models;
 using PlacementManagement.BAL.Services.Interfaces;
 using PlacementManagement.DAL.Models;
+using PlacementManagement.DAL.Repository.Implementations;
 using PlacementManagement.DAL.Repository.Interface;
-
 
 namespace PlacementManagement.BAL.Services.Implementations
 {
@@ -24,7 +24,7 @@ namespace PlacementManagement.BAL.Services.Implementations
                 Password = user.Password
             };
             _userRepository.AddUser(usr);
-        }
+        }        
 
         public UserViewModel GetUserByUserName(string userName)
         {
