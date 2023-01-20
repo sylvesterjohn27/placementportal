@@ -25,6 +25,19 @@ namespace PlacementManagement.BAL.Services.Implementations
             };
             _userRepository.AddUser(usr);
         }
+
+        public UserViewModel GetUserByUserName(string userName)
+        {
+            var userDetails = new UserViewModel();
+            var user =  _userRepository.GetUserByUserName(userName);
+            if (user != null)
+            {
+                userDetails.Name = user.Name;
+                userDetails.UserName = user.UserName;
+                userDetails.AccountTypeId  = user.AccountTypeId;
+            }
+            return userDetails;
+        }
     }
 }
     

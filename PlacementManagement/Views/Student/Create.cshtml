@@ -1,0 +1,51 @@
+﻿@model PlacementManagement.BAL.Models.StudentViewModel
+
+@{
+    ViewData["Title"] = "Create Student";
+}
+<div class="card">
+    <div class="card-header text-center">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+    <div class="card-body">
+        <form method="post" action="Create" class="mt-3" autocomplete="off">
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.StudentName)
+                <input type="text" class="form-control" asp-for="StudentName" />
+                <span asp-validation-for="StudentName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.Email)
+                <input type="email" class="form-control" asp-for="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.DepartmentName)
+                <select asp-for="DepartmentId" asp-items="Model.DepartmentList"></select>
+                <span asp-validation-for="DepartmentName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.CGPA)
+                <div class="input-group">                   
+                    <input type="number" class="form-control" asp-for="CGPA" />
+                </div>
+                <span asp-validation-for="CGPA" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.CoreAreas)
+                <input type="text" class="form-control" asp-for="CoreAreas" />
+                <span asp-validation-for="CoreAreas" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <div class="col-lg-12 d-grid">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

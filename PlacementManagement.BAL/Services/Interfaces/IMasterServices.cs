@@ -18,5 +18,6 @@ namespace PlacementManagement.BAL.Services.Interfaces
 
         List<CoreAreaMasterViewModel> GetCoreAreas();
         CoreAreaMasterViewModel GetCoreAreaById(int id);
+        CollegeDepartmentViewModel GetDepartmentsByCollegeId(int collegeId);
     }
 }

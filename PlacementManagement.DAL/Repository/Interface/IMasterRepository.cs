@@ -17,5 +17,7 @@ namespace PlacementManagement.DAL.Repository.Interface
 
         List<CoreAreaMaster> GetCoreAreas();
         CoreAreaMaster GetCoreAreaById(int id);
+
+        List<CollegeMaster> GetDepartmentsByCollegeId(int collegeId);
     }
 }

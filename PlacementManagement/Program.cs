@@ -17,7 +17,8 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserServices, UserServices>();
 builder.Services.AddTransient<IMasterRepository, MasterRepository>();
 builder.Services.AddTransient<IMasterServices, MasterServices>();
-
+builder.Services.AddTransient<IStudentRepository, StudentRepository>();
+builder.Services.AddTransient<IStudentServices, StudentServices>();
 //DI
 builder.Services.AddDbContext<PlacementManagementAppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))

@@ -20,5 +20,7 @@ namespace PlacementManagement.DAL
         public DbSet<AccountTypeMaster> AccountTypeMaster { get; set; }
         public DbSet<DepartmentMaster> DepartmentMaster { get; set; }
         public DbSet<CoreAreaMaster> CoreAreaMaster { get; set; }
+        public DbSet<StudentMaster> StudentMaster { get; set; }         
+        public DbSet<CollegeMaster> CollegeMaster { get; set; }        
     }
 }

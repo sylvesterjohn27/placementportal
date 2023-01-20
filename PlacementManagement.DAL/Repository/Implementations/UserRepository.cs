@@ -16,5 +16,10 @@ namespace PlacementManagement.DAL.Repository.Implementations
             _DbContext.Users.Add(user);   
             _DbContext.SaveChanges();
         }
+
+        public User GetUserByUserName(string userName)
+        {
+            return _DbContext.Users.FirstOrDefault(x => x.UserName == userName);
+        }
     }
 }
