@@ -6,5 +6,7 @@ namespace PlacementManagement.DAL.Repository.Interface
     {
         void AddOrEditStudent(StudentMaster student);
         List<StudentMaster> GetAllStudentMastersByDepartmentIdandCollegeId(int departmentId, int collegeId);
+        StudentMaster GetStudentById(int studentId);
+        void DeleteStudent(StudentMaster student);
     }
 }

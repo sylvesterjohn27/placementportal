@@ -9,6 +9,8 @@
     </div>
     <div class="card-body">
         <form method="post" action="Create" class="mt-3" autocomplete="off">
+            @Html.HiddenFor(model=>model.CollegeName)
+            @Html.HiddenFor(model=>model.CollegeId)
             <div class="mb-3">
                 @Html.DisplayNameFor(model => model.StudentName)
                 <input type="text" class="form-control" asp-for="StudentName" />
@@ -20,13 +22,13 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                @Html.DisplayNameFor(model => model.DepartmentName)
-                <select asp-for="DepartmentId" asp-items="Model.DepartmentList"></select>
-                <span asp-validation-for="DepartmentName" class="text-danger"></span>
+                @Html.DisplayNameFor(model => model.DepartmentId)
+                @Html.DropDownList("DepartmentId", new SelectList(Model.DepartmentList, "Value", "Text"), "--Select--", new { @class = "form-control" })
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 @Html.DisplayNameFor(model => model.CGPA)
-                <div class="input-group">                   
+                <div class="input-group">
                     <input type="number" class="form-control" asp-for="CGPA" />
                 </div>
                 <span asp-validation-for="CGPA" class="text-danger"></span>

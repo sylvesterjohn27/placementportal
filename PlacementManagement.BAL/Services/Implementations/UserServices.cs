@@ -17,7 +17,7 @@ namespace PlacementManagement.BAL.Services.Implementations
         {
             var usr = new User
             {
-                AccountTypeId = user.AccountTypeId, 
+                AccountTypeId = user.AccountTypeId,
                 Name = user.Name,
                 UserName = user.UserName,
                 Password = user.Password
@@ -28,17 +28,15 @@ namespace PlacementManagement.BAL.Services.Implementations
         public UserViewModel GetUserByUserName(string userName)
         {
             var userDetails = new UserViewModel();
-            var user =  _userRepository.GetUserByUserName(userName);
+            var user = _userRepository.GetUserByUserName(userName);
             if (user != null)
             {
+                userDetails.Id = user.Id;
                 userDetails.Name = user.Name;
                 userDetails.UserName = user.UserName;
-                userDetails.AccountTypeId  = user.AccountTypeId;
+                userDetails.AccountTypeId = user.AccountTypeId;
             }
             return userDetails;
         }
     }
 }
-    
-    
-

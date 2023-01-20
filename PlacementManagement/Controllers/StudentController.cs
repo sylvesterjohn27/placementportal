@@ -28,22 +28,24 @@ namespace PlacementManagement.Controllers
         }
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
-        public async Task<ActionResult> Index(int collegeId)
+        private async Task<UserViewModel> GetCollegeName()
+        {
+            var collegeName = string.Empty;
+            var currentUser = await GetCurrentUserAsync();            
+            if (currentUser != null)
+            {
+                return _userServices.GetUserByUserName(currentUser.UserName);              
+            }
+            return new UserViewModel();
+        }
+
+        public async Task<ActionResult> Index()
         {
             var students = new List<StudentViewModel>();
             try
             {
-                var currentUser = await GetCurrentUserAsync();
-                if (currentUser != null)
-                {
-                    var userDetails = _userServices.GetUserByUserName(currentUser.UserName);
-                    if(userDetails != null)
-                    {
-                        collegeId = userDetails.AccountTypeId;                        
-                        students = _studentServices.GetAllStudentMastersByDepartmentIdandCollegeId(0, collegeId, userDetails.Name);
-                        ViewData["CollegeId"] = collegeId;
-                    }
-                }                
+                var collegeDetails = await GetCollegeName();
+                students = _studentServices.GetAllStudentMastersByDepartmentIdandCollegeId(0, collegeDetails.Id, collegeDetails.Name);
                 return View(students);
             }
             catch (Exception ex)
@@ -61,75 +63,149 @@ namespace PlacementManagement.Controllers
         }
 
         // GET: StudentController/Create
-        public ActionResult Create(int id)
-        {
-            var model = new StudentViewModel();
-            List<SelectListItem> department = new List<SelectListItem>();
-            var departments = _masterServices.GetDepartmentsByCollegeId(id);
+        public ActionResult Create()
+        {           
+            List<SelectListItem> departmentList = new List<SelectListItem>();
+
+            var collegeDetails = GetCollegeName().Result;
+            var departments = _masterServices.GetDepartmentsByCollegeId(collegeDetails.Id);
             foreach (var ditem in departments.Departments)
             {
-                department.Add(new SelectListItem
+                departmentList.Add(new SelectListItem
                 {
                     Text = ditem.DepartmentName,
                     Value = Convert.ToString(ditem.Id)
                 });
-            }       
+            }
+            var model = new StudentViewModel
+            {
+                DepartmentList = departmentList,
+                CollegeId = collegeDetails.Id,
+                CollegeName = collegeDetails.Name
+            };
             return View(model);
         }
 
         // POST: StudentController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(StudentViewModel model)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                ModelState.Remove("DepartmentList");
+                ModelState.Remove("DepartmentName");
+                //var collegeDetails = GetCollegeName().Result;
+                //model.CollegeName = collegeDetails.Name;                
+                if (ModelState.IsValid)
+                {
+                    _studentServices.AddOrEditStudent(model);
+                    TempData["SuccessMessage"] = "New Student Created.";
+                    return RedirectToAction("Index");
+                }
+                return View();
             }
-            catch
+            catch (Exception ex)
             {
+                TempData["ErrorMessage"] = ex.Message;
                 return View();
             }
         }
 
         // GET: StudentController/Edit/5
         public ActionResult Edit(int id)
-        {
-            return View();
+        {            
+            List<SelectListItem> departmentList = new List<SelectListItem>();
+            try
+            {
+                var collegeDetails = GetCollegeName().Result;
+                var student = _studentServices.GetStudentById(id);                             
+                if (student != null)
+                {                   
+                    var departments = _masterServices.GetDepartmentsByCollegeId(student.CollegeId);                   
+                    student.DepartmentList = departments.Departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString(), Selected = (x.Id==student.DepartmentId) }).ToList();
+                    student.CollegeName = collegeDetails.Name;
+                    return View(student);
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = $"Placement request not found with ID: {id}";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: StudentController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpPost]        
+        public ActionResult Edit(StudentViewModel model)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+
+                ModelState.Remove("DepartmentList");
+                ModelState.Remove("DepartmentName");
+                if (ModelState.IsValid)
+                {
+                    _studentServices.AddOrEditStudent(model);
+                    TempData["SuccessMessage"] = "Student updated successfuly.";
+                    return RedirectToAction("Index");
+                }
+                var departments = _masterServices.GetDepartmentsByCollegeId(model.CollegeId);
+                model.DepartmentList = departments.Departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString(), Selected = (x.Id == model.DepartmentId) }).ToList();
+                return View(model);
             }
-            catch
+            catch (Exception ex)
             {
+                TempData["ErrorMessage"] = ex.Message;
+                return View(model);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int Id)
+        {
+            try
+            {
+                var student = _studentServices.GetStudentById(Id);
+                if (student != null)
+                {
+                    var departments = _masterServices.GetDepartmentsByCollegeId(student.CollegeId);
+                    student.DepartmentList = departments.Departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString(), Selected = (x.Id == student.DepartmentId) }).ToList();
+                    return View(student);
+                }
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var student = _studentServices.GetStudentById(id);
+            try
+            {
+                if (student != null)
+                {
+                    bool isDeleted = _studentServices.DeleteStudent(id);
+                    if (isDeleted)
+                    {
+                        TempData["SuccessMessage"] = "Student deleted.";
+                        return RedirectToAction("Index");
+                    }
+                }               
                 return View();
             }
-        }
-
-        // GET: StudentController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: StudentController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            catch (Exception ex)
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
+                TempData["ErrorMessage"] = ex.Message;
                 return View();
             }
         }

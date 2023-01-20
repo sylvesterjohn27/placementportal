@@ -28,5 +28,16 @@ namespace PlacementManagement.DAL.Repository.Implementations
             else
                 return _dbContext.StudentMaster.Where(c => c.CollegeId == collegeId).ToList();
         }
+
+        public StudentMaster GetStudentById(int studentId)
+        {
+            return _dbContext.StudentMaster.FirstOrDefault(c => c.Id == studentId);
+        }
+
+        public void DeleteStudent(StudentMaster student)
+        {
+            _dbContext.StudentMaster.Remove(student);
+            _dbContext.SaveChanges();
+        }
     }
 }
