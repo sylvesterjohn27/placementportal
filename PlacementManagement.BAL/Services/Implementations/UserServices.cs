@@ -18,8 +18,7 @@ namespace PlacementManagement.BAL.Services.Implementations
         {
             var usr = new User
             {
-                //AccountTypeId = user.AccountTypeId,
-                AccountTypeId = 1,
+                AccountTypeId = user.AccountTypeId,
                 Name = user.Name,
                 UserName = user.UserName,
                 Password = user.Password
