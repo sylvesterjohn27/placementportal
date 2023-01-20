@@ -1,0 +1,58 @@
+﻿@model List<PlacementManagement.BAL.Models.PlacementRequestViewModel>
+
+@{
+    ViewData["Title"] = "Placement Request List";
+}
+<form>
+    <button asp-action="Create" class="btn btn-primary mb-3"><i class="fa-solid fa-circle-plus"></i> Create Placement Request</button>
+    <div class="card">
+        <div class="card-header text-center">
+            <h3>@ViewData["Title"]</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-responsive table-bordered table-hover">
+                <thead>
+                    <tr class="table-active">
+                        <th>Placement Date</th>
+                        <th>College</th>
+                        <th>Department(s)</th>
+                        <th>Core Area(s)</th>
+                        <th>CGPA</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var placementRequest in Model)
+                        {
+                            <tr>
+                                <td>@placementRequest.PlacementDate.ToString("dd-MM-yyyy")</td>
+                                <td>@placementRequest.CollegeId</td>
+                                <td>@placementRequest.Departments</td>
+                                <td>@placementRequest.CoreAreas</td>
+                                <td>@placementRequest.CGPA</td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm">
+                                        <a asp-controller="PlacementRequest" asp-action="Edit" asp-route-id="@placementRequest.Id" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Edit</a>
+                                        <a asp-controller="PlacementRequest" asp-action="Delete" asp-route-id="@placementRequest.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="">
+                                <div>
+                                    No Placement request(s) available at this moment!
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>

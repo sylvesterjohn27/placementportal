@@ -1,0 +1,45 @@
+﻿@model PlacementManagement.BAL.Models.PlacementRequestViewModel
+
+@{
+    ViewData["Title"] = "Delete Placement Request";
+}
+<div class="card">
+    <div class="card-header text-center">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+    <div class="card-body">
+        <form method="post" action="Create" class="mt-3" autocomplete="off">
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.Id)
+                <input type="text" asp-for="Id" class="form-control" readonly />
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.PlacementDate)
+                <input type="date" asp-for="PlacementDate" class="form-control" readonly />
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Departments)
+                @Html.ListBoxFor(model => model.DepartmentIds,new MultiSelectList(Model.DepartmentDetails, "Value", "Text"), new { @class = "form-control", multiple = "multiple", @readonly = "readonly"})
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(model => model.CoreAreas)
+                @Html.ListBoxFor(model => model.CoreAreaIds,new MultiSelectList(Model.CoreAreaDetails, "Value", "Text"), new { @class = "form-control", multiple = "multiple", @readonly = "readonly"})
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.CGPA)
+                <input type="text" asp-for="CGPA" class="form-control" readonly />
+            </div>
+            <div>
+                <div>
+                    <button type="submit" class="btn btn-danger form-control" onclick="return confirm('Are you sure to delete Placement Request')" )><i class="fa-solid fa-trash"></i> Delete</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

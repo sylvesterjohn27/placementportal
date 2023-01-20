@@ -10,35 +10,35 @@ namespace PlacementManagement.DAL.Repository.Implementations
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        private readonly PlacementManagementAppDbContext _DbContext;
+        private readonly PlacementManagementAppDbContext _dbContext;
 
-        public EmployeeRepository(PlacementManagementAppDbContext DbContext)
+        public EmployeeRepository(PlacementManagementAppDbContext dbContext)
         {
-            _DbContext= DbContext;
+            _dbContext = dbContext;
         }
 
         public List<Employee> GetAllEmployees()
         {
-            return _DbContext.Employees.ToList();
+            return _dbContext.Employees.ToList();
         }
         public Employee GetEmployeeById(int id)
         {
-            return _DbContext.Employees.FirstOrDefault(c => c.Id == id);
+            return _dbContext.Employees.FirstOrDefault(c => c.Id == id);
         }
 
         public void AddorEditEmployee(Employee employee)
         {
             if (employee.Id > 0)
-                _DbContext.Employees.Update(employee);
+                _dbContext.Employees.Update(employee);
             else
-                _DbContext.Employees.Add(employee);   
-            _DbContext.SaveChanges();
+                _dbContext.Employees.Add(employee);
+            _dbContext.SaveChanges();
         }
           
         public void DeleteEmployee(Employee employee)
         {
-            _DbContext.Employees.Remove(employee);
-            _DbContext.SaveChanges();
+            _dbContext.Employees.Remove(employee);
+            _dbContext.SaveChanges();
         }
     }
 }

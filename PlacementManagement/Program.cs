@@ -9,8 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Repo
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddTransient<IPlacementRequestRepository, PlacementRequestRepository>();
+builder.Services.AddTransient<IMasterRepository, MasterRepository>();
+
+//Service
 builder.Services.AddTransient<IEmployeeServices, EmployeeServices>();
+builder.Services.AddTransient<IPlacementRequestServices, PlacementRequestServices>();
+builder.Services.AddTransient<IMasterServices, MasterServices>();
 
 //DI
 builder.Services.AddDbContext<PlacementManagementAppDbContext>(options =>
