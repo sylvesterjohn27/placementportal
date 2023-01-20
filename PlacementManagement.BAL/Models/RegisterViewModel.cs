@@ -3,23 +3,31 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PlacementManagement.BAL.Models
 {
-    public class UserViewModel
+    public class RegisterViewModel
     {
         public int Id { get; set; }      
         [Required]
         [Display(Name = "Account Type")]
+
         public int AccountTypeId { get; set; }
         [Required]
-        public string? Name { get; set; }
+        public string Name { get; set; }
+
         [Required]
+        [EmailAddress]
         [Display(Name = "User Name")]
-        public string? UserName { get; set; }
+        public string UserName { get; set; }
+
         [Required]
-        public string? Password { get; set; }
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
         [Display(Name = "Confirm Password")]
         [Compare("Password",ErrorMessage ="Confirm Password should match with Password")]
         [Required]
-        public string? ConfirmPassword { get; set; }
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
+
         public List<AccountTypeMasterViewModel> AccountTypes { get; set; }
     }
 }
