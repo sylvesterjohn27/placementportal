@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,24 +19,29 @@ namespace PlacementManagement.BAL.Models
         [DisplayName("Placement Date")]
         public DateTime PlacementDate { get; set; }
 
-        [Required]
-        public int CollegeId { get; set; }
+        [Required]        
+        public int CollegeId { get; set; }        
 
         [Required]
         [DisplayName("Department")]
-        public string? Departments { get; set; }
+        public string Departments { get; set; }
 
         [Required]
         [DisplayName("Core Areas")]
-        public string? CoreAreas { get; set; }
+        public string CoreAreas { get; set; }
 
         [Required]
         [Range(1, 10)]
         public double CGPA { get; set; }
                 
-        public List<SelectListItem>? DepartmentDetails { get; set; }        
-        public long[]? DepartmentIds { get; set; }
-        public List<SelectListItem>? CoreAreaDetails { get; set; }
-        public long[]? CoreAreaIds { get; set; }
+        public List<SelectListItem> DepartmentDetails { get; set; }        
+        public long[] DepartmentIds { get; set; }
+        public List<SelectListItem> CoreAreaDetails { get; set; }
+        public long[] CoreAreaIds { get; set; }
+
+        [NotMapped]
+        [DisplayName("College")]
+        public string CollegeName { get; set; }
+
     }
 }

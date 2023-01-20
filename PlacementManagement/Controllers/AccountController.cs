@@ -76,14 +76,18 @@ namespace PlacementManagement.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             var accountTypes = _masterService.GetAccountTypes();
+            RegisterViewModel viewModel = new RegisterViewModel
+            {
+                AccountTypes = accountTypes.ToList()
+            };
+
             ModelState.Remove("AccountTypes");            
             if (ModelState.IsValid)
             {
                 try
                 {
                     //Save User to UserMaster
-                    _userService.AddUser(model);
-                    TempData["SuccessMessage"] = "New user created.";
+                    _userService.AddUser(model);                    
                     var user = new IdentityUser
                     {
                         UserName = model.UserName,
@@ -102,21 +106,23 @@ namespace PlacementManagement.Controllers
                         //Login user
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         //Redirect to Home page
+                        TempData["SuccessMessage"] = "New user created.";
                         return RedirectToAction("index", "Home");
                     }
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
                     }
-                    ModelState.AddModelError(string.Empty, "Invalid Registration");
+                    TempData["ErrorMessage"] = "Invalid Registration";
+                    return View(viewModel);
                 }
                 catch (Exception ex)
                 {
                     TempData["ErrorMessage"] = ex.Message;
-                    return View(model);
+                    return View(viewModel);
                 }
             }
-            return View(model);
+            return View(viewModel);
         }
     }
 }

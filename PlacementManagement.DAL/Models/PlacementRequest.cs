@@ -29,6 +29,9 @@ namespace PlacementManagement.DAL.Models
         [Range(1,10)]
         public double CGPA { get; set; }
                 
-        public bool? IsApprovedByCollege { get; set; }        
+        public bool? IsApprovedByCollege { get; set; }
+
+        [NotMapped]
+        public string CollegeName { get; set; }
     }
 }

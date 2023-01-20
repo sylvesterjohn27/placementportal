@@ -31,18 +31,20 @@ namespace PlacementManagement.Controllers
                     string coreAreas = string.Empty;
                     var departmentMasterData = _masterService.GetDepartments();
                     var coreAreaMasterData = _masterService.GetCoreAreas();
-                    foreach (var dept in placementRequests)
+                    foreach (var placement in placementRequests)
                     {
-                        var departmentIds = dept.Departments?.Split(',');
+                        var userInfo = _masterService.GetUserById(placement.CollegeId);
+                        var departmentIds = placement.Departments?.Split(',');
                         departments = string.Join(", ", departmentMasterData.Where(c => departmentIds.Contains(c.Id.ToString()))
                                             .OrderBy(x => x.DepartmentName).Select(c => c.DepartmentName).ToList());
-                        dept.Departments = departments;
+                        placement.Departments = departments;
 
-                        var coreAreaIds = dept.CoreAreas?.Split(',');
+                        var coreAreaIds = placement.CoreAreas?.Split(',');
                         coreAreas = string.Join(", ", coreAreaMasterData.Where(c => coreAreaIds.Contains(c.Id.ToString()))
                                             .OrderBy(x => x.CoreArea).Select(c => c.CoreArea).ToList());
 
-                        dept.CoreAreas = coreAreas;
+                        placement.CoreAreas = coreAreas;
+                        placement.CollegeName = userInfo.Name;
                     }
                 }
                 return View(placementRequests);
@@ -59,6 +61,9 @@ namespace PlacementManagement.Controllers
         {
             var departments = _masterService.GetDepartments();
             var coreAreas = _masterService.GetCoreAreas();
+            
+            var userInfo = _masterService.GetUsers();
+            ViewBag.CollegeDetails = new SelectList(userInfo, "Id", "Name");
 
             List<long> departmentIds = new List<long>();
             List<long> coreAreaIds = new List<long>();
@@ -81,6 +86,8 @@ namespace PlacementManagement.Controllers
             {
                 var departments = _masterService.GetDepartments();
                 var coreAreas = _masterService.GetCoreAreas();
+                var userInfo = _masterService.GetUsers();
+                ViewBag.CollegeDetails = new SelectList(userInfo, "Id", "Name");
 
                 List<long> departmentIds = new List<long>();
                 List<long> coreAreaIds = new List<long>();
@@ -118,9 +125,6 @@ namespace PlacementManagement.Controllers
 
                 ModelState.Remove("Departments");
                 ModelState.Remove("CoreAreas");
-
-                model.CollegeId = 1;
-
                 if (ModelState.IsValid)
                 {
                     _placementRequestService.AddorEditPlacementRequest(model);
@@ -147,6 +151,8 @@ namespace PlacementManagement.Controllers
                 {
                     var departments = _masterService.GetDepartments();
                     var coreAreas = _masterService.GetCoreAreas();
+                    var userInfo = _masterService.GetUsers();
+                    ViewBag.CollegeDetails = new SelectList(userInfo, "Id", "Name");
 
                     List<long> departmentIds = new List<long>();
                     List<long> coreAreaIds = new List<long>();
@@ -179,6 +185,8 @@ namespace PlacementManagement.Controllers
             {
                 var departments = _masterService.GetDepartments();
                 var coreAreas = _masterService.GetCoreAreas();
+                var userInfo = _masterService.GetUsers();
+                ViewBag.CollegeDetails = new SelectList(userInfo, "Id", "Name");
 
                 List<long> departmentIds = new List<long>();
                 List<long> coreAreaIds = new List<long>();
@@ -217,7 +225,6 @@ namespace PlacementManagement.Controllers
                 ModelState.Remove("Departments");
                 ModelState.Remove("CoreAreas");
 
-                model.CollegeId = 1;
                 if (ModelState.IsValid)
                 {
                     _placementRequestService.AddorEditPlacementRequest(model);
@@ -243,6 +250,8 @@ namespace PlacementManagement.Controllers
                 {
                     var departments = _masterService.GetDepartments();
                     var coreAreas = _masterService.GetCoreAreas();
+                    var userInfo = _masterService.GetUsers();
+                    ViewBag.CollegeDetails = new SelectList(userInfo, "Id", "Name");
 
                     List<long> departmentIds = new List<long>();
                     List<long> coreAreaIds = new List<long>();
@@ -273,6 +282,8 @@ namespace PlacementManagement.Controllers
                 {
                     var departments = _masterService.GetDepartments();
                     var coreAreas = _masterService.GetCoreAreas();
+                    var userInfo = _masterService.GetUsers();
+                    ViewBag.CollegeDetails = new SelectList(userInfo, "Id", "Name");
 
                     List<long> departmentIds = new List<long>();
                     List<long> coreAreaIds = new List<long>();

@@ -43,5 +43,15 @@ namespace PlacementManagement.DAL.Repository.Implementations
         {
             return _dbContext.CoreAreaMaster.FirstOrDefault(c => c.Id == id);
         }
+
+        public User GetUserById(int id)
+        {
+            return _dbContext.Users.FirstOrDefault(c => c.Id == id);
+        }
+
+        public List<User> GetUsers()
+        {
+            return _dbContext.Users.Where(x => x.AccountTypeId == 1).ToList().OrderBy(x => x.Name).ToList();
+        }
     }
 }
