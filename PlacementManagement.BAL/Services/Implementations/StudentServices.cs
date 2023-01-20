@@ -1,6 +1,8 @@
-﻿using PlacementManagement.BAL.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using PlacementManagement.BAL.Models;
 using PlacementManagement.BAL.Services.Interfaces;
 using PlacementManagement.DAL.Models;
+using PlacementManagement.DAL.Repository.Implementations;
 using PlacementManagement.DAL.Repository.Interface;
 using System;
 using System.Collections.Generic;
@@ -24,12 +26,13 @@ namespace PlacementManagement.BAL.Services.Implementations
         {
             var studentMaster = new StudentMaster
             {
+                Id= student.Id,
                 StudentName = student.StudentName,
                 Email= student.Email,
                 DepartmentId = student.DepartmentId,
                 CollegeId= student.CollegeId,
                 CGPA = student.CGPA,
-                CoreAreas= student.CoreAreas
+                CoreAreas= student.CoreAreas                
             };
             _studentRepository.AddOrEditStudent(studentMaster);
         }
@@ -41,6 +44,7 @@ namespace PlacementManagement.BAL.Services.Implementations
             foreach(var student in studentMaster)
             {
                 studentList.Add(new StudentViewModel {
+                    Id = student.Id,
                     StudentName = student.StudentName, 
                     Email = student.Email, 
                     DepartmentId = student.DepartmentId, 
@@ -52,6 +56,32 @@ namespace PlacementManagement.BAL.Services.Implementations
                 });
             }
             return studentList;
+        }
+        public StudentViewModel GetStudentById(int studentId)
+        {
+            var student = _studentRepository.GetStudentById(studentId);           
+            var studentViewModel = new StudentViewModel
+            {
+                Id = studentId,
+                StudentName = student.StudentName,
+                Email = student.Email,
+                DepartmentId = student.DepartmentId,                              
+                CollegeId = student.CollegeId,
+                CoreAreas = student.CoreAreas,
+                CGPA = student.CGPA
+            };            
+            return studentViewModel;
+        }
+
+        public bool DeleteStudent(int id)
+        {
+            var student = _studentRepository.GetStudentById(id);
+            if (student != null)
+            {
+                _studentRepository.DeleteStudent(student);
+                return true;
+            }
+            return false;
         }
     }
 }
