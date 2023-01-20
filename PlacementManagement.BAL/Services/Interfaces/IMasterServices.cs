@@ -21,5 +21,7 @@ namespace PlacementManagement.BAL.Services.Interfaces
 
         List<RegisterViewModel> GetUsers();
         RegisterViewModel GetUserById(int id);
+
+        CollegeDepartmentViewModel GetDepartmentsByCollegeId(int collegeId);
     }
 }

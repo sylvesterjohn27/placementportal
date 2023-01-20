@@ -30,6 +30,11 @@ namespace PlacementManagement.DAL.Repository.Implementations
         {
             return _dbContext.DepartmentMaster.ToList();
         }
+
+        public List<CollegeMaster> GetDepartmentsByCollegeId(int collegeId)
+        {
+            return _dbContext.CollegeMaster.Where(C => C.CollegeId == collegeId).ToList();
+        }
         public DepartmentMaster GetDepartmentById(int id)
         {
             return _dbContext.DepartmentMaster.FirstOrDefault(c => c.Id == id);

@@ -142,6 +142,22 @@ namespace PlacementManagement.BAL.Services.Implementations
                 return userDetails;
             }
             return null;
+      }
+        public CollegeDepartmentViewModel GetDepartmentsByCollegeId(int collegeId)
+        {            
+            var departmentList = _masterRepository.GetDepartmentsByCollegeId(collegeId);
+            var collegeDepartment = new CollegeDepartmentViewModel { Departments = new List<DepartmentModel> { } };
+            foreach (var department in departmentList)
+            {
+                collegeDepartment.Departments.Add(
+                    new DepartmentModel
+                    {
+                        Id = department.Id,
+                        DepartmentName = GetDepartmentById(department.Id).DepartmentName
+                    });
+            }
+            collegeDepartment.CollegeId = collegeId;
+            return collegeDepartment;
         }
     }
 }
