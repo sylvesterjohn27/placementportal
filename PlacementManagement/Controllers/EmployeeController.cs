@@ -4,9 +4,11 @@ using PlacementManagement.DAL.Repository.Interface;
 using PlacementManagement.DAL.Models;
 using PlacementManagement.BAL.Services.Interfaces;
 using PlacementManagement.BAL.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PlacementManagement.Controllers
 {
+    [Authorize(Roles = "College")]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeServices _employeeService;
