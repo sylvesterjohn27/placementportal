@@ -14,12 +14,11 @@ namespace PlacementManagement.BAL.Services.Implementations
             _userRepository = userRepository;
         }
 
-        public void AddUser(UserViewModel user)
+        public void AddUser(RegisterViewModel user)
         {
             var usr = new User
             {
-                //AccountTypeId = user.AccountTypeId,
-                AccountTypeId = 1,
+                AccountTypeId = user.AccountTypeId,                
                 Name = user.Name,
                 UserName = user.UserName,
                 Password = user.Password

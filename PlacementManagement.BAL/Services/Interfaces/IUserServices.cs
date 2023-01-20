@@ -11,6 +11,6 @@ namespace PlacementManagement.BAL.Services.Interfaces
 {
     public interface IUserServices
     {
-        void AddUser(UserViewModel user);
+        void AddUser(RegisterViewModel user);
     }
 }
