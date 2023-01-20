@@ -1,0 +1,49 @@
+﻿@model PlacementManagement.BAL.Models.UserViewModel
+
+@{
+    ViewData["Title"] = "User Registration";
+}
+<div class="card">
+    <div class="card-header text-center">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+    <div class="card-body">
+        <form method="post" action="Register" class="mt-3" autocomplete="off">
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.AccountTypeId)
+                @Html.DropDownList("AccountTypeId", new SelectList(Model.AccountTypes, "Id", "AcccountType"), "--Select--", new { @class = "form-control" })
+                <span asp-validation-for="AccountTypeId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.Name)
+                <input type="text" class="form-control" asp-for="Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.UserName)
+                <input type="text" class="form-control" asp-for="UserName" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.Password)
+                <input type="password" class="form-control" asp-for="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.ConfirmPassword)
+                <input type="password" class="form-control" asp-for="ConfirmPassword" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <div class="col-lg-12 d-grid">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
