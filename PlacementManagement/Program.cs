@@ -13,6 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddTransient<IEmployeeServices, EmployeeServices>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IUserServices, UserServices>();
+builder.Services.AddTransient<IMasterRepository, MasterRepository>();
+builder.Services.AddTransient<IMasterServices, MasterServices>();
 
 //DI
 builder.Services.AddDbContext<PlacementManagementAppDbContext>(options =>
