@@ -50,6 +50,7 @@ namespace PlacementManagement.Controllers
             var studentList = new List<StudentViewModel>();
             if (request != null)
             {
+                ViewBag.PlacementRequestId = id;
                 studentList = _studentServices.GetEligibleStudents(collegeDetails.Id, request.CoreAreas, request.CGPA, request.Departments);
                 foreach (var student in studentList)
                 {
@@ -57,10 +58,48 @@ namespace PlacementManagement.Controllers
                     student.CoreAreas = string.Join(", ", coreAreaMasterData.Where(c => coreAreaIds.Contains(c.Id.ToString()))
                                         .OrderBy(x => x.CoreArea).Select(c => c.CoreArea).ToList());
                 }
+            }
 
-               
+            if(studentList.Count == 0)
+            {
+                TempData["ErrorMessage"] = "No students found with the given criteria!";
+                return RedirectToAction("Index", "PlacementRequest");
             }
             return View(studentList);
+        }
+
+        //[HttpPost]
+        public IActionResult SaveApproval_Rejection(int id, int placementRequestId)
+        {
+            try
+            {
+                var request = _placementRequestService.GetPlacementRequestById(placementRequestId);
+                
+                if (id > 0)
+                {
+                    request.IsApprovedByCollege = true;                    
+                }
+                else 
+                {
+                    request.IsApprovedByCollege = false;
+                    TempData["SuccessMessage"] = "Placement request rejected.";
+                }                
+                _placementRequestService.Approve_RejectPlacementRequest(request);
+                if(id > 0)
+                {
+                    TempData["SuccessMessage"] = "Placement request approved.";
+                }
+                else
+                {
+                    TempData["SuccessMessage"] = "Placement request rejected.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return View();
+            }            
+            return RedirectToAction("Index", "PlacementRequest");
         }
     }
 }

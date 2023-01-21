@@ -144,8 +144,8 @@ namespace PlacementManagement.BAL.Services.Implementations
                 collegeDepartment.Departments.Add(
                     new DepartmentModel
                     {
-                        Id = department.Id,
-                        DepartmentName = GetDepartmentById(department.Id).DepartmentName
+                        Id = department.DepartmentId,
+                        DepartmentName = GetDepartmentById(department.DepartmentId).DepartmentName
                     });
             }
             collegeDepartment.CollegeId = collegeId;

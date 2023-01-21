@@ -23,7 +23,8 @@
                         <th>College</th>
                         <th>Department(s)</th>
                         <th>Core Area(s)</th>
-                        <th>CGPA</th>                        
+                        <th>CGPA</th>
+                        <th>Status</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -38,6 +39,8 @@
                                 <td>@placementRequest.Departments</td>
                                 <td>@placementRequest.CoreAreas</td>
                                 <td>@placementRequest.CGPA</td>
+                                <td>@placementRequest.Status</td>
+
                                 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Company"))
                                 {
                                     <td class="text-center">
@@ -46,13 +49,13 @@
                                             <a asp-controller="PlacementRequest" asp-action="Delete" asp-route-id="@placementRequest.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Delete</a>
                                         </div>
                                     </td>
-                                } 
+                                }
                                 @if (SignInManager.IsSignedIn(User) && User.IsInRole("College"))
-                                 {
+                                {
                                     <td class="text-center">
-                                        <a class="btn btn-outline-danger" asp-area="" asp-controller="CollegeDashboard" asp-action="GetStudents" asp-route-id="@placementRequest.Id">Get Students</a>
+                                        <a class="btn btn-outline-danger" asp-area="" asp-controller="CollegeDashboard" asp-action="GetStudents" asp-route-id="@placementRequest.Id">Get Eligible Student(s)</a>
                                     </td>
-                                 }
+                                }
                             </tr>
                         }
                     }

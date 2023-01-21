@@ -64,6 +64,7 @@ namespace PlacementManagement.Controllers
 
                         placement.CoreAreas = coreAreas;
                         placement.CollegeName = userInfo.Name;
+                        placement.Status = placement.IsApprovedByCollege == null ? "Awaiting for Approval" : placement.IsApprovedByCollege == true ? "Approved" : "Rejected";
                     }
                 }
                 return View(placementRequests);

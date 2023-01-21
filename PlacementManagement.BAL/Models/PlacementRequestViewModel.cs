@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata.Ecma335;
 
 namespace PlacementManagement.BAL.Models
 {
@@ -25,6 +26,8 @@ namespace PlacementManagement.BAL.Models
         [DisplayName("Core Areas")]
         public string CoreAreas { get; set; }
 
+        public bool? IsApprovedByCollege { get; set; }
+
         [Required]
         [Range(1, 10)]
         public double CGPA { get; set; }
@@ -37,8 +40,9 @@ namespace PlacementManagement.BAL.Models
         [NotMapped]
         [DisplayName("College")]
         public string CollegeName { get; set; }
-
         public int CompanyId { get; set; }
 
+        [NotMapped]
+        public string Status { get; set; }
     }
 }

@@ -6,7 +6,8 @@ namespace PlacementManagement.BAL.Services.Interfaces
     {
         List<PlacementRequestViewModel> GetPlacementRequestsByCompanyOrCollegeId(int companyOrCollegeId, int accountTypeId);
         PlacementRequestViewModel GetPlacementRequestById(int id);
-        void AddorEditPlacementRequest(PlacementRequestViewModel placementRequest);
+        void AddorEditPlacementRequest(PlacementRequestViewModel placementRequest);        
         bool DeletePlacementRequest(int Id);
+        void Approve_RejectPlacementRequest(PlacementRequestViewModel placementRequest);
     }
 }
