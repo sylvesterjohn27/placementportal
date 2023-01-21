@@ -40,5 +40,12 @@ namespace PlacementManagement.DAL.Repository.Implementations
             _dbContext.PlacementRequest.Remove(placementRequest);
             _dbContext.SaveChanges();
         }
+
+        public void Approve_RejectPlacementRequest(PlacementRequest placementRequest)
+        {
+            var request = _dbContext.PlacementRequest.Find(placementRequest.Id);
+            request.IsApprovedByCollege = placementRequest.IsApprovedByCollege;
+            _dbContext.SaveChanges();
+        }
     }
 }

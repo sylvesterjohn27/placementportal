@@ -28,7 +28,8 @@ namespace PlacementManagement.BAL.Services.Implementations
                     Departments = placement.Departments,
                     CoreAreas = placement.CoreAreas,
                     CGPA = placement.CGPA,
-                    CompanyId = placement.CompanyId
+                    CompanyId = placement.CompanyId,
+                    IsApprovedByCollege = placement.IsApprovedByCollege
                 };
                 placementRequestList.Add(placementRequest);
             }
@@ -79,6 +80,16 @@ namespace PlacementManagement.BAL.Services.Implementations
                 return true;
             }
             return false;
-        }       
+        }
+
+        public void Approve_RejectPlacementRequest(PlacementRequestViewModel placementRequest)
+        {
+            var placement = new PlacementRequest
+            {
+                Id = placementRequest.Id,               
+                IsApprovedByCollege = placementRequest.IsApprovedByCollege
+            };
+            _placementRequestRepository.Approve_RejectPlacementRequest(placement);
+        }
     }
 }

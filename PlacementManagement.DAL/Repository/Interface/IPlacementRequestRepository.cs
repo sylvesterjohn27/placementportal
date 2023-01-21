@@ -8,5 +8,6 @@ namespace PlacementManagement.DAL.Repository.Interface
         PlacementRequest GetPlacementRequestById(int id);
         void AddorEditPlacementRequest(PlacementRequest placementRequest);
         void DeletePlacementRequest(PlacementRequest placementRequest);
+        void Approve_RejectPlacementRequest(PlacementRequest placementRequest);
     }
 }
