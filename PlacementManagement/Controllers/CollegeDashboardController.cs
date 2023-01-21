@@ -36,9 +36,10 @@ namespace PlacementManagement.Controllers
             return new UserViewModel();
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var collegeDetails = await GetCompanyOrCollegeName();
+            return View(collegeDetails);
         }     
         
         public IActionResult GetStudents(int id)
