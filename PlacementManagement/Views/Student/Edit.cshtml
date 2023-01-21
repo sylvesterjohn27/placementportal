@@ -34,8 +34,7 @@
         </div>
         <div class="mb-3">
             @Html.DisplayNameFor(model => model.CoreAreas)
-            <input type="text" class="form-control" asp-for="CoreAreas" />
-            <span asp-validation-for="CoreAreas" class="text-danger"></span>
+            @Html.ListBoxFor(model => model.CoreAreaIds,new MultiSelectList(Model.CoreAreaDetails, "Value", "Text"), new { @class = "form-control", multiple = "multiple"})
         </div>
         <div class="mb-3">
             <div class="col-lg-12 d-grid">

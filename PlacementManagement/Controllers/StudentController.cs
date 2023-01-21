@@ -69,6 +69,7 @@ namespace PlacementManagement.Controllers
 
             var collegeDetails = GetCollegeName().Result;
             var departments = _masterServices.GetDepartmentsByCollegeId(collegeDetails.Id);
+            var coreAreas = _masterServices.GetCoreAreas();
             foreach (var ditem in departments.Departments)
             {
                 departmentList.Add(new SelectListItem
@@ -81,7 +82,9 @@ namespace PlacementManagement.Controllers
             {
                 DepartmentList = departmentList,
                 CollegeId = collegeDetails.Id,
-                CollegeName = collegeDetails.Name
+                CollegeName = collegeDetails.Name,
+                CoreAreaIds = new List<long>().ToArray(),
+                CoreAreaDetails = coreAreas.Select(x => new SelectListItem { Text = x.CoreArea, Value = x.Id.ToString() }).ToList()
             };
             return View(model);
         }
@@ -93,9 +96,7 @@ namespace PlacementManagement.Controllers
             try
             {
                 ModelState.Remove("DepartmentList");
-                ModelState.Remove("DepartmentName");
-                //var collegeDetails = GetCollegeName().Result;
-                //model.CollegeName = collegeDetails.Name;                
+                ModelState.Remove("DepartmentName");                             
                 if (ModelState.IsValid)
                 {
                     _studentServices.AddOrEditStudent(model);
@@ -121,9 +122,12 @@ namespace PlacementManagement.Controllers
                 var student = _studentServices.GetStudentById(id);                             
                 if (student != null)
                 {                   
-                    var departments = _masterServices.GetDepartmentsByCollegeId(student.CollegeId);                   
+                    var departments = _masterServices.GetDepartmentsByCollegeId(student.CollegeId);
+                    var coreAreas = _masterServices.GetCoreAreas();
                     student.DepartmentList = departments.Departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString(), Selected = (x.Id==student.DepartmentId) }).ToList();
                     student.CollegeName = collegeDetails.Name;
+                    student.CoreAreaDetails = coreAreas.Select(x => new SelectListItem { Text = x.CoreArea, Value = x.Id.ToString() }).ToList();                    
+                    student.CoreAreaIds = student.CoreAreas?.Split(',').Select(long.Parse).ToArray();
                     return View(student);
                 }
                 else
@@ -147,7 +151,7 @@ namespace PlacementManagement.Controllers
             {
 
                 ModelState.Remove("DepartmentList");
-                ModelState.Remove("DepartmentName");
+                ModelState.Remove("DepartmentName");                
                 if (ModelState.IsValid)
                 {
                     _studentServices.AddOrEditStudent(model);
@@ -174,7 +178,10 @@ namespace PlacementManagement.Controllers
                 if (student != null)
                 {
                     var departments = _masterServices.GetDepartmentsByCollegeId(student.CollegeId);
+                    var coreAreas = _masterServices.GetCoreAreas();
                     student.DepartmentList = departments.Departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString(), Selected = (x.Id == student.DepartmentId) }).ToList();
+                    student.CoreAreaDetails = coreAreas.Select(x => new SelectListItem { Text = x.CoreArea, Value = x.Id.ToString() }).ToList();
+                    student.CoreAreaIds = student.CoreAreas?.Split(',').Select(long.Parse).ToArray();
                     return View(student);
                 }
                 return RedirectToAction("Index");

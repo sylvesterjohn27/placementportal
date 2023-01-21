@@ -24,7 +24,7 @@
             </div>
             <div class="mb-3">
                 @Html.LabelFor(model => model.CoreAreas)
-                <input type="text" asp-for="CoreAreas" class="form-control" readonly />
+                @Html.ListBoxFor(model => model.CoreAreaIds,new MultiSelectList(Model.CoreAreaDetails, "Value", "Text"), new { @class = "form-control", multiple = "multiple", @readonly = "readonly"})
             </div>
             <div class="mb-3">
                 @Html.DisplayNameFor(model => model.CGPA)
