@@ -1,9 +1,36 @@
-﻿@{
+﻿@model PlacementManagement.BAL.Models.UserViewModel
+@{
     ViewData["Title"] = "My Dashboard";
 
 }
+
 <div class="row g-0">
     <div class="col-lg-12">
+        <div class="card-body p-md-5 mx-md-4">
+            <div class="card">
+                <h5 class="card-header">My Info</h5>
+                <div class="card-body">                    
+                     <table class="table table-responsive table-bordered table-hover">
+                            <thead>
+                                <tr class="table-active">
+                                    <th>Name</th>
+                                    <th>E-Mail</th>                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@Model.Name</td>
+                                    <td>@Model.UserName</td>
+                                </tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-0">
+    <div class="col-lg-6">
         <div class="card-body p-md-5 mx-md-4">
             <div class="card">
                 <h5 class="card-header">Student Information</h5>
@@ -15,9 +42,7 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row g-0">
-    <div class="col-lg-12">
+    <div class="col-lg-6">
         <div class="card-body p-md-5 mx-md-4">
             <div class="card">
                 <h5 class="card-header">Placement Requests from Companies</h5>
