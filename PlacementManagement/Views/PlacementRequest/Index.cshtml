@@ -23,11 +23,8 @@
                         <th>College</th>
                         <th>Department(s)</th>
                         <th>Core Area(s)</th>
-                        <th>CGPA</th>
-                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Company"))
-                         {
-                          <th class="text-center">Action</th>
-                         }
+                        <th>CGPA</th>                        
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,14 +39,20 @@
                                 <td>@placementRequest.CoreAreas</td>
                                 <td>@placementRequest.CGPA</td>
                                 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Company"))
-                                    {
+                                {
                                     <td class="text-center">
                                         <div class="btn-group btn-group-sm">
                                             <a asp-controller="PlacementRequest" asp-action="Edit" asp-route-id="@placementRequest.Id" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Edit</a>
                                             <a asp-controller="PlacementRequest" asp-action="Delete" asp-route-id="@placementRequest.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Delete</a>
                                         </div>
                                     </td>
-                                    }                               
+                                } 
+                                @if (SignInManager.IsSignedIn(User) && User.IsInRole("College"))
+                                 {
+                                    <td class="text-center">
+                                        <a class="btn btn-outline-danger" asp-area="" asp-controller="CollegeDashboard" asp-action="GetStudents" asp-route-id="@placementRequest.Id">Get Students</a>
+                                    </td>
+                                 }
                             </tr>
                         }
                     }

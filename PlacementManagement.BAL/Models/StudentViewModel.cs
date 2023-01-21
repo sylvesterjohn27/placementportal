@@ -20,5 +20,7 @@ namespace PlacementManagement.BAL.Models
         public List<SelectListItem> DepartmentList { get; set; }
         public double CGPA { get; set; }
         public string CoreAreas { get; set; }
+        public List<SelectListItem> CoreAreaDetails { get; set; }
+        public long[] CoreAreaIds { get; set; }
     }
 }
