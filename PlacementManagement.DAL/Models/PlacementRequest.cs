@@ -28,5 +28,7 @@ namespace PlacementManagement.DAL.Models
 
         [NotMapped]
         public string CollegeName { get; set; }
+
+        public int CompanyId { get; set; }
     }
 }

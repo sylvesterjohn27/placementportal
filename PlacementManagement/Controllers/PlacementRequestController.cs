@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.DependencyResolver;
 using PlacementManagement.BAL.Models;
@@ -11,11 +12,28 @@ namespace PlacementManagement.Controllers
     {
         private readonly IPlacementRequestServices _placementRequestService;
         private readonly IMasterServices _masterService;
+        private readonly IUserServices _userServices;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public PlacementRequestController(IPlacementRequestServices placementRequestService, IMasterServices masterService)
+        public PlacementRequestController(IPlacementRequestServices placementRequestService, IMasterServices masterService, IUserServices userServices, UserManager<IdentityUser> userManager)
         {
             _placementRequestService = placementRequestService;
             _masterService = masterService;
+            _userServices = userServices;
+            _userManager = userManager;
+        }
+
+        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+        private async Task<UserViewModel> GetCompanyOrCollegeName()
+        {
+            var collegeName = string.Empty;
+            var currentUser = await GetCurrentUserAsync();
+            if (currentUser != null)
+            {
+                return _userServices.GetUserByUserName(currentUser.UserName);
+            }
+            return new UserViewModel();
         }
 
         [HttpGet]
@@ -23,7 +41,8 @@ namespace PlacementManagement.Controllers
         {
             try
             {
-                var placementRequests = _placementRequestService.GetPlacementRequests();
+                var companyOrCollegeDetails = GetCompanyOrCollegeName().Result;
+                var placementRequests = _placementRequestService.GetPlacementRequestsByCompanyOrCollegeId(companyOrCollegeDetails.Id, companyOrCollegeDetails.AccountTypeId);
 
                 if (placementRequests != null)
                 {
@@ -61,7 +80,7 @@ namespace PlacementManagement.Controllers
         {
             var departments = _masterService.GetDepartments();
             var coreAreas = _masterService.GetCoreAreas();
-            
+            var companyDetails = GetCompanyOrCollegeName().Result;
             var userInfo = _masterService.GetUsers();
             ViewBag.CollegeDetails = new SelectList(userInfo, "Id", "Name");
 
@@ -74,6 +93,7 @@ namespace PlacementManagement.Controllers
             placementRequestView.CoreAreaDetails = coreAreas.Select(x => new SelectListItem { Text = x.CoreArea, Value = x.Id.ToString() }).ToList();
             placementRequestView.DepartmentIds = departmentIds.ToArray();
             placementRequestView.CoreAreaIds = coreAreaIds.ToArray();
+            placementRequestView.CompanyId = companyDetails.Id;
             return View(placementRequestView);
         }
 

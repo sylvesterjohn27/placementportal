@@ -1,5 +1,6 @@
 ﻿using PlacementManagement.DAL.Models;
 using PlacementManagement.DAL.Repository.Interface;
+using System.ComponentModel.Design;
 
 namespace PlacementManagement.DAL.Repository.Implementations
 {
@@ -12,9 +13,12 @@ namespace PlacementManagement.DAL.Repository.Implementations
             _dbContext = dbContext;
         }
 
-        public List<PlacementRequest> GetPlacementRequests()
+        public List<PlacementRequest> GetPlacementRequestsByCompanyOrCollegeId(int companyOrCollegeId, int accountTypeId)
         {
-            return _dbContext.PlacementRequest.ToList();
+            if (accountTypeId == 1)
+                return _dbContext.PlacementRequest.Where(c => c.CollegeId == companyOrCollegeId).ToList();
+            else
+                return _dbContext.PlacementRequest.Where(c => c.CompanyId == companyOrCollegeId).ToList();
         }
 
         public PlacementRequest GetPlacementRequestById(int id)
