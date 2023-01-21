@@ -189,7 +189,7 @@ ALTER TABLE [dbo].[AspNetUserTokens] CHECK CONSTRAINT [FK_AspNetUserTokens_AspNe
 GO
 
 
-
+/*
 ===============================================================================================
 User Name                     Password                 Role
 -----------------------------------------------------------------------------------------------
@@ -197,3 +197,4 @@ sylvesterj27@gmail.com		 Welcome@123		     Admin
 jessica@gmail.com			 Welcome@123		     Company
 ryan@gmail.com               Welcome@123		     College
 ===============================================================================================
+*/
