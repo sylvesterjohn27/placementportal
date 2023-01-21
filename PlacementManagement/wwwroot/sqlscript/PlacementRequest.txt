@@ -1,0 +1,33 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[PlacementRequest](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[PlacementDate] [date] NOT NULL,
+	[CollegeId] [int] NOT NULL,
+	[Departments] [varchar](max) NULL,
+	[CoreAreas] [varchar](max) NULL,
+	[CGPA] [float] NOT NULL,
+	[IsApprovedByCollege] [bit] NULL,
+	[Remarks] [varchar](250) NULL,
+	[CompanyId] [int] NOT NULL
+ CONSTRAINT [PK_RequestToCollege] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[PlacementRequest]  WITH CHECK ADD  CONSTRAINT [FK_RequestToCollege_UserMaster] FOREIGN KEY([CollegeId])
+REFERENCES [dbo].[UserMaster] ([Id])
+GO
+
+ALTER TABLE [dbo].[PlacementRequest]  WITH CHECK ADD  CONSTRAINT [FK_PlacementRequest_UserMaster] FOREIGN KEY([CompanyId])
+REFERENCES [dbo].[UserMaster] ([Id])
+GO
+
+ALTER TABLE [dbo].[PlacementRequest] CHECK CONSTRAINT [FK_RequestToCollege_UserMaster]
+GO

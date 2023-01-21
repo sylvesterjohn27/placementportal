@@ -38,5 +38,7 @@ namespace PlacementManagement.BAL.Models
         [DisplayName("College")]
         public string CollegeName { get; set; }
 
+        public int CompanyId { get; set; }
+
     }
 }

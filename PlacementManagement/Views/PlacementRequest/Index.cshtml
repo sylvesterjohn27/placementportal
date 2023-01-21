@@ -1,10 +1,16 @@
-﻿@model List<PlacementManagement.BAL.Models.PlacementRequestViewModel>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model List<PlacementManagement.BAL.Models.PlacementRequestViewModel>
 
 @{
     ViewData["Title"] = "Placement Request List";
 }
 <form>
-    <button asp-action="Create" class="btn btn-primary mb-3"><i class="fa-solid fa-circle-plus"></i> Create Placement Request</button>
+    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Company"))
+    {
+        <button asp-action="Create" class="btn btn-primary mb-3"><i class="fa-solid fa-circle-plus"></i> Create Placement Request</button>
+    }
     <div class="card">
         <div class="card-header text-center">
             <h3>@ViewData["Title"]</h3>
@@ -18,7 +24,10 @@
                         <th>Department(s)</th>
                         <th>Core Area(s)</th>
                         <th>CGPA</th>
-                        <th class="text-center">Action</th>
+                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Company"))
+                         {
+                          <th class="text-center">Action</th>
+                         }
                     </tr>
                 </thead>
                 <tbody>
@@ -32,12 +41,15 @@
                                 <td>@placementRequest.Departments</td>
                                 <td>@placementRequest.CoreAreas</td>
                                 <td>@placementRequest.CGPA</td>
-                                <td class="text-center">
-                                    <div class="btn-group btn-group-sm">
-                                        <a asp-controller="PlacementRequest" asp-action="Edit" asp-route-id="@placementRequest.Id" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Edit</a>
-                                        <a asp-controller="PlacementRequest" asp-action="Delete" asp-route-id="@placementRequest.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Delete</a>
-                                    </div>
-                                </td>
+                                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Company"))
+                                    {
+                                    <td class="text-center">
+                                        <div class="btn-group btn-group-sm">
+                                            <a asp-controller="PlacementRequest" asp-action="Edit" asp-route-id="@placementRequest.Id" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Edit</a>
+                                            <a asp-controller="PlacementRequest" asp-action="Delete" asp-route-id="@placementRequest.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Delete</a>
+                                        </div>
+                                    </td>
+                                    }                               
                             </tr>
                         }
                     }

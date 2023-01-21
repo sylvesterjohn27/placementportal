@@ -14,9 +14,9 @@ namespace PlacementManagement.BAL.Services.Implementations
             _placementRequestRepository = placementRequestRepository;
         }
 
-        public List<PlacementRequestViewModel> GetPlacementRequests()
+        public List<PlacementRequestViewModel> GetPlacementRequestsByCompanyOrCollegeId(int companyOrCollegeId, int accountTypeId)
         {
-            var placementRequests = _placementRequestRepository.GetPlacementRequests();
+            var placementRequests = _placementRequestRepository.GetPlacementRequestsByCompanyOrCollegeId(companyOrCollegeId, accountTypeId);
             var placementRequestList = new List<PlacementRequestViewModel>();
             foreach (var placement in placementRequests)
             {
@@ -27,7 +27,8 @@ namespace PlacementManagement.BAL.Services.Implementations
                     CollegeId = placement.CollegeId,
                     Departments = placement.Departments,
                     CoreAreas = placement.CoreAreas,
-                    CGPA = placement.CGPA
+                    CGPA = placement.CGPA,
+                    CompanyId = placement.CompanyId
                 };
                 placementRequestList.Add(placementRequest);
             }
@@ -46,7 +47,8 @@ namespace PlacementManagement.BAL.Services.Implementations
                     CollegeId = placementRequest.CollegeId,
                     Departments = placementRequest.Departments,
                     CoreAreas = placementRequest.CoreAreas,
-                    CGPA = placementRequest.CGPA
+                    CGPA = placementRequest.CGPA,
+                    CompanyId = placementRequest.CompanyId
                 };
                 return placement;
             }
@@ -62,7 +64,8 @@ namespace PlacementManagement.BAL.Services.Implementations
                 CollegeId = placementRequest.CollegeId,
                 Departments = placementRequest.Departments,
                 CoreAreas = placementRequest.CoreAreas,
-                CGPA = placementRequest.CGPA
+                CGPA = placementRequest.CGPA,
+                CompanyId= placementRequest.CompanyId
             };
             _placementRequestRepository.AddorEditPlacementRequest(placement);
         }
