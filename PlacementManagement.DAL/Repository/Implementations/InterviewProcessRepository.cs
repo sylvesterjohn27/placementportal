@@ -18,13 +18,27 @@ namespace PlacementManagement.DAL.Repository.Implementations
         }
 
         public List<InterviewProcess> GetInterviewProcessByPlacementRequestId(int placementRequestId)
-        {         
-            return _dbContext.InterviewProcess.Where(c=>c.PlacementRequestId == placementRequestId).ToList();
+        {
+            return _dbContext.InterviewProcess.Where(c => c.PlacementRequestId == placementRequestId).ToList();
+        }
+
+        public InterviewProcess GetCandidateByPlacementRequestIdandStudentId(int placementRequestId, int studentId)
+        {
+            return _dbContext.InterviewProcess.Where(c=>c.PlacementRequestId == placementRequestId && c.StudentId ==studentId).FirstOrDefault();
         }
 
         public void AddCandidateForInterviewProcess(InterviewProcess interviewProcess)
-        {           
-            _dbContext.InterviewProcess.Add(interviewProcess);
+        {
+            if (interviewProcess.Id > 0)
+                _dbContext.InterviewProcess.Update(interviewProcess);
+            else
+                _dbContext.InterviewProcess.Add(interviewProcess);
+            _dbContext.SaveChanges();
+        }
+
+        public void RemoveCandidateFromInterviewProcess(InterviewProcess candiate)
+        {
+            _dbContext.InterviewProcess.Remove(candiate);
             _dbContext.SaveChanges();
         }
     }
