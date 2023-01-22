@@ -41,5 +41,10 @@ namespace PlacementManagement.DAL.Repository.Implementations
             _dbContext.InterviewProcess.Remove(candiate);
             _dbContext.SaveChanges();
         }
+
+        public InterviewProcess GetInterviewProcessById(int interviewProcessId)
+        {
+            return _dbContext.InterviewProcess.FirstOrDefault(c=>c.Id==interviewProcessId);
+        }
     }
 }

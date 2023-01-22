@@ -12,14 +12,16 @@ namespace PlacementManagement.Controllers
         private readonly IInterviewProcessServices _interviewProcessServices;
         private readonly IPlacementRequestServices _placementRequestService;
         private readonly IUserServices _userServices;
+        private readonly IMasterServices _masterServices;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public InterviewProcessController(IInterviewProcessServices interviewProcessServices, IUserServices userServices, UserManager<IdentityUser> userManager, IPlacementRequestServices placementRequestService)
+        public InterviewProcessController(IInterviewProcessServices interviewProcessServices, IUserServices userServices, UserManager<IdentityUser> userManager, IPlacementRequestServices placementRequestService, IMasterServices masterServices)
         {
             _interviewProcessServices = interviewProcessServices;
             _userServices = userServices;
             _userManager = userManager;
             _placementRequestService = placementRequestService;
+            _masterServices = masterServices;
         }
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
@@ -42,7 +44,7 @@ namespace PlacementManagement.Controllers
                 if (placementRequests != null)
                 {
                     foreach (var placement in placementRequests)
-                    {
+                    {                        
                         placement.Status = placement.IsApprovedByCollege == null ? "Awaiting for Approval" : placement.IsApprovedByCollege == true ? "Approved" : "Rejected";
                     }
                 }
@@ -64,9 +66,33 @@ namespace PlacementManagement.Controllers
         {
             var interviewProcess = _interviewProcessServices.GetInterviewProcessByPlacementRequestId(placementRequestId);
             return View(interviewProcess);
-
         }
 
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var interviewCandidate = _interviewProcessServices.GetCandidateById(id);
+            return View(interviewCandidate);
+        }
 
+        [HttpPost]
+        public IActionResult Edit(InteviewProcessViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _interviewProcessServices.AddOrUpdateCandidateInterviewProcess(model);
+                    TempData["SuccessMessage"] = "Interview process updated!";
+                    return RedirectToAction("InterviewProcess", new { placementRequestId = model.PlacementRequestId });
+                }
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return View(model);
+            }
+        }
     }
 }

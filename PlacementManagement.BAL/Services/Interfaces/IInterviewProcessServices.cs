@@ -10,6 +10,8 @@ namespace PlacementManagement.BAL.Services.Interfaces
     public interface IInterviewProcessServices
     {
         List<InteviewProcessViewModel> GetInterviewProcessByPlacementRequestId(int placementRequestId);
-        bool AddOrRemoveCandidateForInterviewProcess(int placementRequestId, List<StudentViewModel> studentList, bool isRemove);       
+        bool AddOrRemoveCandidateForInterviewProcess(int placementRequestId, List<StudentViewModel> studentList, bool isRemove);
+        InteviewProcessViewModel GetCandidateById(int interviewProcessId);
+        void AddOrUpdateCandidateInterviewProcess(InteviewProcessViewModel model);
     }
 }
