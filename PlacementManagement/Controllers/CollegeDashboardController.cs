@@ -16,10 +16,10 @@ namespace PlacementManagement.Controllers
         private readonly IUserServices _userServices;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public CollegeDashboardController(IPlacementRequestServices placementRequestService, IStudentServices studentService, IUserServices userServices, UserManager<IdentityUser> userManager, IMasterServices masterService) 
+        public CollegeDashboardController(IPlacementRequestServices placementRequestService, IStudentServices studentService, IUserServices userServices, UserManager<IdentityUser> userManager, IMasterServices masterService)
         {
-            _placementRequestService= placementRequestService;
-            _studentServices= studentService;
+            _placementRequestService = placementRequestService;
+            _studentServices = studentService;
             _userServices = userServices;
             _userManager = userManager;
             _masterService = masterService;
@@ -40,8 +40,8 @@ namespace PlacementManagement.Controllers
         {
             var collegeDetails = await GetCompanyOrCollegeName();
             return View(collegeDetails);
-        }     
-        
+        }
+
         public IActionResult GetStudents(int id)
         {
             var request = _placementRequestService.GetPlacementRequestById(id);
@@ -59,8 +59,13 @@ namespace PlacementManagement.Controllers
                                         .OrderBy(x => x.CoreArea).Select(c => c.CoreArea).ToList());
                 }
             }
+            else
+            {
+                TempData["ErrorMessage"] = $"Placement Request not found with Id {id}";
+                return RedirectToAction("Index", "PlacementRequest");
+            }
 
-            if(studentList.Count == 0)
+            if (studentList.Count == 0)
             {
                 TempData["ErrorMessage"] = "No students found with the given criteria!";
                 return RedirectToAction("Index", "PlacementRequest");
@@ -74,18 +79,18 @@ namespace PlacementManagement.Controllers
             try
             {
                 var request = _placementRequestService.GetPlacementRequestById(placementRequestId);
-                
+
                 if (id > 0)
                 {
-                    request.IsApprovedByCollege = true;                    
+                    request.IsApprovedByCollege = true;
                 }
-                else 
+                else
                 {
                     request.IsApprovedByCollege = false;
                     TempData["SuccessMessage"] = "Placement request rejected.";
-                }                
+                }
                 _placementRequestService.Approve_RejectPlacementRequest(request);
-                if(id > 0)
+                if (id > 0)
                 {
                     TempData["SuccessMessage"] = "Placement request approved.";
                 }
@@ -98,7 +103,7 @@ namespace PlacementManagement.Controllers
             {
                 TempData["ErrorMessage"] = ex.Message;
                 return View();
-            }            
+            }
             return RedirectToAction("Index", "PlacementRequest");
         }
     }

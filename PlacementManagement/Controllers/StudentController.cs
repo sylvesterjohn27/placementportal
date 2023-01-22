@@ -68,19 +68,12 @@ namespace PlacementManagement.Controllers
             List<SelectListItem> departmentList = new List<SelectListItem>();
 
             var collegeDetails = GetCollegeName().Result;
-            var departments = _masterServices.GetDepartmentsByCollegeId(collegeDetails.Id);
+            var departments = _masterServices.GetDepartments();
             var coreAreas = _masterServices.GetCoreAreas();
-            foreach (var ditem in departments.Departments)
-            {
-                departmentList.Add(new SelectListItem
-                {
-                    Text = ditem.DepartmentName,
-                    Value = Convert.ToString(ditem.Id)
-                });
-            }
+           
             var model = new StudentViewModel
             {
-                DepartmentList = departmentList,
+                DepartmentList = departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString() }).ToList(),
                 CollegeId = collegeDetails.Id,
                 CollegeName = collegeDetails.Name,
                 CoreAreaIds = new List<long>().ToArray(),
