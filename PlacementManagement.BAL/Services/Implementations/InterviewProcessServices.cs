@@ -59,34 +59,53 @@ namespace PlacementManagement.BAL.Services.Implementations
             return candidateList;
         }
 
-        public bool AddCandidateForInterviewProcess(int placementRequestId, List<StudentViewModel> studentList)
+        public bool AddOrRemoveCandidateForInterviewProcess(int placementRequestId, List<StudentViewModel> studentList, bool isRemove)
         {
             var placementRequest = _placementRequestRepository.GetPlacementRequestById(placementRequestId);
             if (placementRequest != null)
             {
-                foreach (var candidate in studentList)
+                //Placement Request id approved
+                if (!isRemove)
                 {
-                    _interviewProcessRepository.AddCandidateForInterviewProcess(new InterviewProcess
+                    foreach (var candidate in studentList)
                     {
-                        PlacementRequestId = placementRequestId,
-                        CollegeId = candidate.CollegeId,
-                        CompanyId = placementRequest.CompanyId,
-                        StudentId = candidate.Id,
-                        RoundOneScore = 0,
-                        RoundOneRemarks = string.Empty,
-                        RoundOneCleared = false,
-                        RoundTwoScore = 0,
-                        RoundTwoRemarks = string.Empty,
-                        RoundTwoCleared = false,
-                        IsSelected = false,
-                        IsOfferAccepted = false,
-                        IsOfferReleased = false,
-                        CreatedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
-                        OfferReleasedDate = null
-                    });
+                        var candidateExists = _interviewProcessRepository.GetCandidateByPlacementRequestIdandStudentId(placementRequestId, candidate.Id);
+                        if (candidateExists == null)
+                        {
+                            _interviewProcessRepository.AddCandidateForInterviewProcess(new InterviewProcess
+                            {                               
+                                PlacementRequestId = placementRequestId,
+                                CollegeId = candidate.CollegeId,
+                                CompanyId = placementRequest.CompanyId,
+                                StudentId = candidate.Id,
+                                RoundOneScore = 0,
+                                RoundOneRemarks = string.Empty,
+                                RoundOneCleared = false,
+                                RoundTwoScore = 0,
+                                RoundTwoRemarks = string.Empty,
+                                RoundTwoCleared = false,
+                                IsSelected = false,
+                                IsOfferAccepted = false,
+                                IsOfferReleased = false,
+                                CreatedDate = DateTime.Now,
+                                ModifiedDate = DateTime.Now,
+                                OfferReleasedDate = null
+                            });
+                        }
+                    }
                 }
-                return true;
+                else
+                {
+                    var existingCandidates = _interviewProcessRepository.GetInterviewProcessByPlacementRequestId(placementRequestId);
+                    if (existingCandidates != null)
+                    {
+                        foreach (var candidate in existingCandidates)
+                        {
+                            _interviewProcessRepository.RemoveCandidateFromInterviewProcess(candidate);
+                        }
+                    }
+                }                
+                return true;               
             }           
             return false;
         }

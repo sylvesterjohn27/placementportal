@@ -80,7 +80,8 @@ namespace PlacementManagement.Controllers
             try
             {
                 var request = _placementRequestService.GetPlacementRequestById(placementRequestId);
-
+                var collegeDetails = GetCompanyOrCollegeName().Result;
+                var studentList = _studentServices.GetEligibleStudents(collegeDetails.Id, request.CoreAreas, request.CGPA, request.Departments);
                 if (id > 0)
                 {
                     request.IsApprovedByCollege = true;
@@ -93,14 +94,14 @@ namespace PlacementManagement.Controllers
                 _placementRequestService.Approve_RejectPlacementRequest(request);
                 if (id > 0)
                 {
-                    // add eligible students to Interview process
-                    var collegeDetails = GetCompanyOrCollegeName().Result;
-                    var studentList = _studentServices.GetEligibleStudents(collegeDetails.Id, request.CoreAreas, request.CGPA, request.Departments);
-                    bool isStudentAdded = _interviewProcessServices.AddCandidateForInterviewProcess(placementRequestId, studentList);                    
+                    // add eligible students to Interview process                   
+                    bool isStudentAdded = _interviewProcessServices.AddOrRemoveCandidateForInterviewProcess(placementRequestId, studentList, false);                    
                     TempData["SuccessMessage"] = "Placement request approved.";
                 }
                 else
                 {
+                    //remove existing entry if rejected
+                    bool isStudentAdded = _interviewProcessServices.AddOrRemoveCandidateForInterviewProcess(placementRequestId, studentList,true);
                     TempData["SuccessMessage"] = "Placement request rejected.";
                 }
             }
