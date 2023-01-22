@@ -13,21 +13,22 @@ namespace PlacementManagement.Controllers
         private readonly IPlacementRequestServices _placementRequestService;
         private readonly IStudentServices _studentServices;
         private readonly IMasterServices _masterService;
+        private readonly IInterviewProcessServices _interviewProcessServices;
         private readonly IUserServices _userServices;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public CollegeDashboardController(IPlacementRequestServices placementRequestService, IStudentServices studentService, IUserServices userServices, UserManager<IdentityUser> userManager, IMasterServices masterService) 
+        public CollegeDashboardController(IPlacementRequestServices placementRequestService, IStudentServices studentService, IUserServices userServices, UserManager<IdentityUser> userManager, IMasterServices masterService, IInterviewProcessServices interviewProcessServices) 
         {
             _placementRequestService= placementRequestService;
             _studentServices= studentService;
             _userServices = userServices;
             _userManager = userManager;
             _masterService = masterService;
+            _interviewProcessServices = interviewProcessServices;
         }
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         private async Task<UserViewModel> GetCompanyOrCollegeName()
-        {
-            var collegeName = string.Empty;
+        {            
             var currentUser = await GetCurrentUserAsync();
             if (currentUser != null)
             {
@@ -87,6 +88,10 @@ namespace PlacementManagement.Controllers
                 _placementRequestService.Approve_RejectPlacementRequest(request);
                 if(id > 0)
                 {
+                    // add eligible students to Interview process
+                    var collegeDetails = GetCompanyOrCollegeName().Result;
+                    var studentList = _studentServices.GetEligibleStudents(collegeDetails.Id, request.CoreAreas, request.CGPA, request.Departments);
+                    bool isStudentAdded = _interviewProcessServices.AddCandidateForInterviewProcess(placementRequestId, studentList);                    
                     TempData["SuccessMessage"] = "Placement request approved.";
                 }
                 else

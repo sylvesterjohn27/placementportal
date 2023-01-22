@@ -21,5 +21,10 @@ namespace PlacementManagement.DAL.Repository.Implementations
         {
             return _DbContext.Users.FirstOrDefault(x => x.UserName == userName);
         }
+
+        public User GetUserById(int id)
+        {
+            return _DbContext.Users.FirstOrDefault(x=>x.Id == id);
+        }
     }
 }

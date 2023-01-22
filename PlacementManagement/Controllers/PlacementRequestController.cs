@@ -26,8 +26,7 @@ namespace PlacementManagement.Controllers
         private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         private async Task<UserViewModel> GetCompanyOrCollegeName()
-        {
-            var collegeName = string.Empty;
+        {            
             var currentUser = await GetCurrentUserAsync();
             if (currentUser != null)
             {

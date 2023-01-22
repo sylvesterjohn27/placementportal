@@ -6,5 +6,6 @@ namespace PlacementManagement.DAL.Repository.Interface
     {
         void AddUser(User user);
         User GetUserByUserName(string userName);
+        User GetUserById(int id);
     }
 }

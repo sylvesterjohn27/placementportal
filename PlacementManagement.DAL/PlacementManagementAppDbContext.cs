@@ -18,6 +18,7 @@ namespace PlacementManagement.DAL
         public DbSet<StudentMaster> StudentMaster { get; set; }         
         public DbSet<CollegeMaster> CollegeMaster { get; set; }  
         public DbSet<PlacementRequest> PlacementRequest { get; set; }
+        public DbSet<InterviewProcess> InterviewProcess { get; set; }
 
     }
 }
