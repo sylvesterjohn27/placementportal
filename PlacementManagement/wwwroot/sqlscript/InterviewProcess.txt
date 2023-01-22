@@ -1,0 +1,79 @@
+﻿USE [PlacementManagement]
+GO
+
+/****** Object:  Table [dbo].[InterviewProcess]    Script Date: 1/22/2023 12:37:32 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[InterviewProcess](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[StudentId] [int] NOT NULL,
+	[CollegeId] [int] NOT NULL,
+	[CompanyId] [int] NOT NULL,
+	[PlacementRequestId] [int] NOT NULL,
+	[RoundOneScore] [float] NULL,
+	[RoundOneRemarks] [nvarchar](max) NULL,
+	[RoundOneCleared] [bit] NOT NULL,
+	[RoundTwoScore] [float] NULL,
+	[RoundTwoRemarks] [nvarchar](max) NULL,
+	[RoundTwoCleared] [bit] NOT NULL,
+	[IsSelected] [bit] NOT NULL,
+	[IsOfferReleased] [bit] NOT NULL,
+	[IsOfferAccepted] [bit] NOT NULL,
+	[OfferReleasedDate] [datetime] NULL,
+	[CreatedDate] [datetime] NULL,
+	[ModifiedDate] [datetime] NULL,
+ CONSTRAINT [PK_InterviewProcess] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[InterviewProcess] ADD  CONSTRAINT [DF_InterviewProcess_RoundOneCleared]  DEFAULT ((0)) FOR [RoundOneCleared]
+GO
+
+ALTER TABLE [dbo].[InterviewProcess] ADD  CONSTRAINT [DF_InterviewProcess_RoundTwoCleared]  DEFAULT ((0)) FOR [RoundTwoCleared]
+GO
+
+ALTER TABLE [dbo].[InterviewProcess] ADD  CONSTRAINT [DF_InterviewProcess_IsSelected]  DEFAULT ((0)) FOR [IsSelected]
+GO
+
+ALTER TABLE [dbo].[InterviewProcess] ADD  CONSTRAINT [DF_InterviewProcess_IsOfferReleased]  DEFAULT ((0)) FOR [IsOfferReleased]
+GO
+
+ALTER TABLE [dbo].[InterviewProcess] ADD  CONSTRAINT [DF_InterviewProcess_IsOfferAccepted]  DEFAULT ((0)) FOR [IsOfferAccepted]
+GO
+
+ALTER TABLE [dbo].[InterviewProcess]  WITH CHECK ADD  CONSTRAINT [FK_InterviewProcess_PlacementRequest] FOREIGN KEY([PlacementRequestId])
+REFERENCES [dbo].[PlacementRequest] ([Id])
+GO
+
+ALTER TABLE [dbo].[InterviewProcess] CHECK CONSTRAINT [FK_InterviewProcess_PlacementRequest]
+GO
+
+ALTER TABLE [dbo].[InterviewProcess]  WITH CHECK ADD  CONSTRAINT [FK_InterviewProcess_UserMaster] FOREIGN KEY([StudentId])
+REFERENCES [dbo].[StudentMaster] ([Id])
+GO
+
+ALTER TABLE [dbo].[InterviewProcess] CHECK CONSTRAINT [FK_InterviewProcess_UserMaster]
+GO
+
+ALTER TABLE [dbo].[InterviewProcess]  WITH CHECK ADD  CONSTRAINT [FK_InterviewProcess_UserMaster1] FOREIGN KEY([CollegeId])
+REFERENCES [dbo].[UserMaster] ([Id])
+GO
+
+ALTER TABLE [dbo].[InterviewProcess] CHECK CONSTRAINT [FK_InterviewProcess_UserMaster1]
+GO
+
+ALTER TABLE [dbo].[InterviewProcess]  WITH CHECK ADD  CONSTRAINT [FK_InterviewProcess_UserMaster2] FOREIGN KEY([CompanyId])
+REFERENCES [dbo].[UserMaster] ([Id])
+GO
+
+ALTER TABLE [dbo].[InterviewProcess] CHECK CONSTRAINT [FK_InterviewProcess_UserMaster2]
+GO
+
+

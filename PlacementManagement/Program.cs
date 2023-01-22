@@ -22,8 +22,9 @@ builder.Services.AddTransient<IPlacementRequestRepository, PlacementRequestRepos
 builder.Services.AddTransient<IMasterServices, MasterServices>();
 builder.Services.AddTransient<IUserServices, UserServices>();
 builder.Services.AddTransient<IStudentServices, StudentServices>();
+builder.Services.AddTransient<IInterviewProcessRepository, InterviewProcessRepository>();
+builder.Services.AddTransient<IInterviewProcessServices, InterviewProcessServices>();
 builder.Services.AddTransient<IPlacementRequestServices, PlacementRequestServices>();
-
 builder.Services.AddDbContext<PlacementManagementAppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
