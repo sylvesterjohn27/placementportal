@@ -10,7 +10,6 @@ namespace PlacementManagement.DAL
         {
         }
         
-        public DbSet<Employee> Employees { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<AccountTypeMaster> AccountTypeMaster { get; set; }
         public DbSet<DepartmentMaster> DepartmentMaster { get; set; }

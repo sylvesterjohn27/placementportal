@@ -47,10 +47,10 @@
         </table>
         <div class="row justify-content-md-center">
             <div class="col col-lg-2">
-                <a class="btn btn-outline-danger" asp-area="" asp-action="SaveApproval_Rejection" asp-route-id="1" asp-route-placementRequestId="@ViewBag.PlacementRequestId">Approve</a>
+                <a class="btn btn-outline-primary" asp-area="" asp-action="SaveApproval_Rejection" asp-route-id="1" asp-route-placementRequestId="@ViewBag.PlacementRequestId" onclick="return confirm('Are you sure to Approve Placement Request')">Approve</a>
             </div>           
             <div class="col col-lg-2">
-                <a class="btn btn-outline-danger" asp-area="" asp-action="SaveApproval_Rejection" asp-route-id="0" asp-route-placementRequestId="@ViewBag.PlacementRequestId">Reject</a>
+                <a class="btn btn-outline-danger" asp-area="" asp-action="SaveApproval_Rejection" asp-route-id="0" asp-route-placementRequestId="@ViewBag.PlacementRequestId" onclick="return confirm('Are you sure to Reject Placement Request')">Reject</a>
             </div>
         </div>       
     </div>

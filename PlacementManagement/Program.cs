@@ -12,28 +12,22 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//Repo
-builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-builder.Services.AddTransient<IPlacementRequestRepository, PlacementRequestRepository>();
+//Repository
 builder.Services.AddTransient<IMasterRepository, MasterRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IStudentRepository, StudentRepository>();
+builder.Services.AddTransient<IPlacementRequestRepository, PlacementRequestRepository>();
 
 //Service
-builder.Services.AddTransient<IEmployeeServices, EmployeeServices>();
-
-builder.Services.AddTransient<IPlacementRequestServices, PlacementRequestServices>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<IUserServices, UserServices>();
-builder.Services.AddTransient<IMasterRepository, MasterRepository>();
 builder.Services.AddTransient<IMasterServices, MasterServices>();
-builder.Services.AddTransient<IStudentRepository, StudentRepository>();
+builder.Services.AddTransient<IUserServices, UserServices>();
 builder.Services.AddTransient<IStudentServices, StudentServices>();
 builder.Services.AddTransient<IInterviewProcessRepository, InterviewProcessRepository>();
 builder.Services.AddTransient<IInterviewProcessServices, InterviewProcessServices>();
-//DI
+builder.Services.AddTransient<IPlacementRequestServices, PlacementRequestServices>();
 builder.Services.AddDbContext<PlacementManagementAppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()           
             .AddEntityFrameworkStores<PlacementManagementAppDbContext>()

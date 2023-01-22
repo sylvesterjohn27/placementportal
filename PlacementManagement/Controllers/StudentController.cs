@@ -68,19 +68,12 @@ namespace PlacementManagement.Controllers
             List<SelectListItem> departmentList = new List<SelectListItem>();
 
             var collegeDetails = GetCollegeName().Result;
-            var departments = _masterServices.GetDepartmentsByCollegeId(collegeDetails.Id);
+            var departments = _masterServices.GetDepartments();
             var coreAreas = _masterServices.GetCoreAreas();
-            foreach (var ditem in departments.Departments)
-            {
-                departmentList.Add(new SelectListItem
-                {
-                    Text = ditem.DepartmentName,
-                    Value = Convert.ToString(ditem.Id)
-                });
-            }
+           
             var model = new StudentViewModel
             {
-                DepartmentList = departmentList,
+                DepartmentList = departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString() }).ToList(),
                 CollegeId = collegeDetails.Id,
                 CollegeName = collegeDetails.Name,
                 CoreAreaIds = new List<long>().ToArray(),
@@ -122,9 +115,9 @@ namespace PlacementManagement.Controllers
                 var student = _studentServices.GetStudentById(id);                             
                 if (student != null)
                 {                   
-                    var departments = _masterServices.GetDepartmentsByCollegeId(student.CollegeId);
+                    var departments = _masterServices.GetDepartments();
                     var coreAreas = _masterServices.GetCoreAreas();
-                    student.DepartmentList = departments.Departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString(), Selected = (x.Id==student.DepartmentId) }).ToList();
+                    student.DepartmentList = departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString() }).ToList();
                     student.CollegeName = collegeDetails.Name;
                     student.CoreAreaDetails = coreAreas.Select(x => new SelectListItem { Text = x.CoreArea, Value = x.Id.ToString() }).ToList();                    
                     student.CoreAreaIds = student.CoreAreas?.Split(',').Select(long.Parse).ToArray();
@@ -158,8 +151,9 @@ namespace PlacementManagement.Controllers
                     TempData["SuccessMessage"] = "Student updated successfuly.";
                     return RedirectToAction("Index");
                 }
-                var departments = _masterServices.GetDepartmentsByCollegeId(model.CollegeId);
-                model.DepartmentList = departments.Departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString(), Selected = (x.Id == model.DepartmentId) }).ToList();
+                //var departments = _masterServices.GetDepartmentsByCollegeId(model.CollegeId);
+                var departments = _masterServices.GetDepartments();
+                model.DepartmentList = departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString() }).ToList();
                 return View(model);
             }
             catch (Exception ex)
@@ -177,9 +171,9 @@ namespace PlacementManagement.Controllers
                 var student = _studentServices.GetStudentById(Id);
                 if (student != null)
                 {
-                    var departments = _masterServices.GetDepartmentsByCollegeId(student.CollegeId);
+                    var departments = _masterServices.GetDepartments();
                     var coreAreas = _masterServices.GetCoreAreas();
-                    student.DepartmentList = departments.Departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString(), Selected = (x.Id == student.DepartmentId) }).ToList();
+                    student.DepartmentList = departments.Select(x => new SelectListItem { Text = x.DepartmentName, Value = x.Id.ToString() }).ToList();
                     student.CoreAreaDetails = coreAreas.Select(x => new SelectListItem { Text = x.CoreArea, Value = x.Id.ToString() }).ToList();
                     student.CoreAreaIds = student.CoreAreas?.Split(',').Select(long.Parse).ToArray();
                     return View(student);
