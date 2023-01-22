@@ -15,8 +15,7 @@ namespace PlacementManagement.BAL.Services.Implementations
         private readonly IInterviewProcessRepository _interviewProcessRepository;
         private readonly IUserRepository _userRepository;
         private readonly IStudentRepository _StudentRepository;
-        private readonly IPlacementRequestRepository _placementRequestRepository;
-
+        private readonly IPlacementRequestRepository _placementRequestRepository;   
 
         public InterviewProcessServices(IInterviewProcessRepository interviewProcessRepository, IUserRepository userRepository,IStudentRepository studentRepository, IPlacementRequestRepository placementRequestRepository)
         {
@@ -50,7 +49,7 @@ namespace PlacementManagement.BAL.Services.Implementations
                     IsOfferReleased = item.IsOfferReleased,
                     IsOfferAccepted = item.IsOfferAccepted,
                     ModifiedDate = item.ModifiedDate?.ToString("yyyy-MM-dd"),
-                    OfferReleasedDate = item.OfferReleasedDate?.ToString("yyyy-MM-dd"),
+                    OfferReleasedDate = item.OfferReleasedDate?.ToString("yyyy-MM-dd"),                                                                                                                                              
                     StudentId = item.StudentId,
                     StudentName = _StudentRepository.GetStudentById(item.StudentId).StudentName,
                     PlacementRequestId = item.PlacementRequestId
@@ -108,6 +107,59 @@ namespace PlacementManagement.BAL.Services.Implementations
                 return true;               
             }           
             return false;
+        }
+
+        public InteviewProcessViewModel GetCandidateById(int interviewProcessId)
+        {
+            var candidate = _interviewProcessRepository.GetInterviewProcessById(interviewProcessId);
+            var interviewProcess = new InteviewProcessViewModel
+            {
+                Id = candidate.Id,
+                PlacementRequestId = candidate.PlacementRequestId,
+                CollegeId = candidate.CollegeId,
+                CompanyId = candidate.CompanyId,
+                StudentId = candidate.Id,
+                RoundOneScore = Convert.ToDouble(candidate.RoundOneScore),
+                RoundOneRemarks = candidate.RoundOneRemarks,
+                RoundOneCleared = candidate.RoundOneCleared,
+                RoundTwoScore = Convert.ToDouble(candidate.RoundTwoScore),
+                RoundTwoRemarks = candidate.RoundTwoRemarks,
+                RoundTwoCleared = candidate.RoundTwoCleared,
+                IsSelected = candidate.IsSelected,
+                IsOfferAccepted = candidate.IsOfferAccepted,
+                IsOfferReleased = candidate.IsOfferReleased,
+                CreatedDate = (candidate.CreatedDate!=null)?candidate.CreatedDate.Value.ToString("yyyy-mm-dd") : null,
+                ModifiedDate = (candidate.ModifiedDate != null) ? candidate.ModifiedDate.Value.ToString("yyyy-mm-dd") : null,
+                OfferReleasedDate = (candidate.OfferReleasedDate != null) ? candidate.OfferReleasedDate.Value.ToString("yyyy-mm-dd") : null,
+                CollegeName = _userRepository.GetUserById(candidate.CollegeId).Name,
+                CompanyName = _userRepository.GetUserById(candidate.CompanyId).Name,
+                StudentName = _StudentRepository.GetStudentById(candidate.StudentId).StudentName
+            };
+            return interviewProcess;
+        }
+
+        public void AddOrUpdateCandidateInterviewProcess(InteviewProcessViewModel model)
+        {
+            var interviewProcess = new InterviewProcess
+            {
+                Id = model.Id,
+                PlacementRequestId = model.PlacementRequestId,
+                CollegeId = model.CollegeId,
+                CompanyId = model.CompanyId,
+                StudentId = model.Id,
+                RoundOneScore = model.RoundOneScore,
+                RoundOneRemarks = model.RoundOneRemarks,
+                RoundOneCleared = model.RoundOneCleared,
+                RoundTwoScore = model.RoundTwoScore,
+                RoundTwoRemarks = model.RoundTwoRemarks,
+                RoundTwoCleared = model.RoundTwoCleared,
+                IsSelected = model.IsSelected,
+                IsOfferAccepted = model.IsOfferAccepted,
+                IsOfferReleased = model.IsOfferReleased,
+                ModifiedDate = DateTime.Now,
+                OfferReleasedDate = (model.OfferReleasedDate!=null)?Convert.ToDateTime(model.OfferReleasedDate):null,
+            };
+            _interviewProcessRepository.AddCandidateForInterviewProcess(interviewProcess);
         }
     }
 }

@@ -11,19 +11,17 @@
         <div class="card-body">
             <table class="table table-responsive table-bordered table-hover">
                 <thead>
-                    <tr class="table-active">   
-                        <th>Placement Request Id</th>
+                    <tr class="table-active">                           
                         <th>Student Name</th>
-                        <th>CollegeName</th>
-                        <th>Company Name</th>
-                        <th>Round One Score</th>
-                        <th>Round One Remarks</th>
-                        <th>Round One Cleared</th>
-                        <th>Round Two Score</th>
-                        <th>Round Two Remarks</th>
-                        <th>Round Two Cleared</th>
-                        <th>Is Candidate Selected</th>
-                        <th>Is Offer Released</th>
+                        <th>CollegeName</th>                        
+                        <th>1st Round</th>
+                        <th>Remarks</th>
+                        <th>1st Round Cleared</th>
+                        <th>2nd Round Score</th>
+                        <th>Remarks</th>
+                        <th>2nd Round Cleared</th>
+                        <th>Selected!</th>
+                        <th>Offer Released!</th>
                         <th>Offer Sent Date</th>
                     </tr>
                 </thead>
@@ -32,11 +30,9 @@
                     {
                         @foreach (var candidate in Model)
                         {
-                            <tr>  
-                                <td>@candidate.PlacementRequestId</td>
+                            <tr>                                 
                                 <td>@candidate.StudentName</td>
-                                <td>@candidate.CollegeName</td>
-                                <td>@candidate.CompanyName</td>
+                                <td>@candidate.CollegeName</td>                                
                                 <td>@candidate.RoundOneScore</td>
                                 <td>@candidate.RoundOneRemarks</td>
                                 <td>@candidate.RoundOneCleared</td>
@@ -48,8 +44,7 @@
                                 <td>@candidate.OfferReleasedDate</td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a asp-controller="Employee" asp-action="Edit" asp-route-id="@candidate.Id" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Edit</a>
-                                        <a asp-controller="Employee" asp-action="Delete" asp-route-id="@candidate.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Delete</a>
+                                        <a asp-controller="InterviewProcess" asp-action="Edit" asp-route-id="@candidate.Id" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Edit</a>                                        
                                     </div>
                                 </td>
                             </tr>

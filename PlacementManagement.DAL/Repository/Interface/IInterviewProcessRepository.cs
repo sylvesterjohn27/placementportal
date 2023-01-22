@@ -13,5 +13,6 @@ namespace PlacementManagement.DAL.Repository.Interface
         InterviewProcess GetCandidateByPlacementRequestIdandStudentId(int placementRequestId, int studentId);
         void AddCandidateForInterviewProcess(InterviewProcess interviewProcess);
         void RemoveCandidateFromInterviewProcess(InterviewProcess candiate);
+        InterviewProcess GetInterviewProcessById(int interviewProcessId);
     }
 }
