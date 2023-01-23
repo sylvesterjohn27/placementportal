@@ -24,13 +24,15 @@
                         <tr>
                             <td>@placementRequest.Id</td>
                             <td>@placementRequest.CollegeName</td>                           
-                            <td>@placementRequest.Status</td>                           
+                            <td>@placementRequest.Status</td> 
+                            @if (placementRequest.Status != "Rejected")
+                            {
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm">
                                         <a asp-controller="InterviewProcess" asp-action="InterviewProcess" asp-route-placementRequestId="@placementRequest.Id" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Update Status</a>                                       
                                     </div>
                                 </td>
-                                                      
+                            }
                         </tr>
                     }
                 }
