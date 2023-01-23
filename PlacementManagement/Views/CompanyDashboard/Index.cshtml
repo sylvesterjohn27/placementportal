@@ -1,0 +1,53 @@
+﻿@model PlacementManagement.BAL.Models.UserViewModel
+@{
+    ViewData["Title"] = "My Dashboard";
+}
+<div class="row g-0">
+    <div class="col-lg-12">
+        <div class="card-body p-md-5 mx-md-4">
+            <div class="card">
+                <h5 class="card-header">My Info</h5>
+                <div class="card-body">
+                    <table class="table table-responsive table-bordered table-hover">
+                        <thead>
+                            <tr class="table-active">
+                                <th>Name</th>
+                                <th>E-Mail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Model.Name</td>
+                                <td>@Model.UserName</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-0">
+    <div class="col-lg-6">
+        <div class="card-body p-md-5 mx-md-4">
+            <div class="card">
+                <h5 class="card-header">My Placement Request</h5>
+                <div class="card-body">
+                    <p class="card-text">Please checkout your placement request(s) here!</p>
+                    <a class="btn btn-outline-danger" asp-area="" asp-controller="PlacementRequest" asp-action="Index">My Requests</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-body p-md-5 mx-md-4">
+            <div class="card">
+                <h5 class="card-header">Selected Candidate(s)</h5>
+                <div class="card-body">
+                    <p class="card-text">Start your interview process right away!</p>
+                    <a class="btn btn-outline-danger" asp-area="" asp-controller="InterviewProcess" asp-action="Index">Review and Send Offer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

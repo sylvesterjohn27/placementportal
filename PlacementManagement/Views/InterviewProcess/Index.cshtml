@@ -1,0 +1,53 @@
+﻿@model List<PlacementManagement.BAL.Models.PlacementRequestViewModel>
+@{
+    ViewData["Title"] = "My PlacementRequests";
+}
+<div class="card">
+    <div class="card-header text-center">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-responsive table-bordered table-hover">
+            <thead>
+                <tr class="table-active">
+                    <th>Placement Request Id</th>   
+                    <th>College Name</th>
+                    <th>Status</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var placementRequest in Model)
+                    {
+                        <tr>
+                            <td>@placementRequest.Id</td>
+                            <td>@placementRequest.CollegeName</td>                           
+                            <td>@placementRequest.Status</td>
+                            @if (placementRequest.Status != "Rejected" && placementRequest.Status != "Awaiting for Approval")
+                            {
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm">
+                                        <a asp-controller="InterviewProcess" asp-action="InterviewProcess" asp-route-placementRequestId="@placementRequest.Id" class="btn btn-primary"><i class="fa-solid fa-pen"></i> Update Status</a>                                       
+                                    </div>
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="">
+                            <div>
+                                No Placement request(s) available at this moment!
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
