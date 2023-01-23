@@ -44,7 +44,7 @@ namespace PlacementManagement.Controllers
                 if (placementRequests != null)
                 {
                     foreach (var placement in placementRequests)
-                    {                        
+                    {  
                         placement.Status = placement.IsApprovedByCollege == null ? "Awaiting for Approval" : placement.IsApprovedByCollege == true ? "Approved" : "Rejected";
                     }
                 }
@@ -63,7 +63,7 @@ namespace PlacementManagement.Controllers
         }
 
         public IActionResult InterviewProcess(int placementRequestId)
-        {
+        {            
             var interviewProcess = _interviewProcessServices.GetInterviewProcessByPlacementRequestId(placementRequestId);
             return View(interviewProcess);
         }

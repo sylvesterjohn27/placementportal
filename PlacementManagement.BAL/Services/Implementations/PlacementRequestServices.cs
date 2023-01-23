@@ -8,10 +8,12 @@ namespace PlacementManagement.BAL.Services.Implementations
     public class PlacementRequestServices : IPlacementRequestServices
     {
         private readonly IPlacementRequestRepository _placementRequestRepository;
+        private readonly IUserRepository _userRepository;
 
-        public PlacementRequestServices(IPlacementRequestRepository placementRequestRepository)
+        public PlacementRequestServices(IPlacementRequestRepository placementRequestRepository, IUserRepository userRepository)
         {
             _placementRequestRepository = placementRequestRepository;
+            _userRepository = userRepository;
         }
 
         public List<PlacementRequestViewModel> GetPlacementRequestsByCompanyOrCollegeId(int companyOrCollegeId, int accountTypeId)
@@ -29,7 +31,8 @@ namespace PlacementManagement.BAL.Services.Implementations
                     CoreAreas = placement.CoreAreas,
                     CGPA = placement.CGPA,
                     CompanyId = placement.CompanyId,
-                    IsApprovedByCollege = placement.IsApprovedByCollege
+                    IsApprovedByCollege = placement.IsApprovedByCollege,
+                    CollegeName =_userRepository.GetUserById(placement.CollegeId).Name,
                 };
                 placementRequestList.Add(placementRequest);
             }
