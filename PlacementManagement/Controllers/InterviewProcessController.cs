@@ -65,6 +65,10 @@ namespace PlacementManagement.Controllers
         public IActionResult InterviewProcess(int placementRequestId)
         {            
             var interviewProcess = _interviewProcessServices.GetInterviewProcessByPlacementRequestId(placementRequestId);
+            if (interviewProcess == null)
+            {
+                TempData["ErrorMessage"] = $"Placement Request not found with Id {placementRequestId}";
+            }
             return View(interviewProcess);
         }
 
@@ -72,6 +76,10 @@ namespace PlacementManagement.Controllers
         public IActionResult Edit(int id)
         {
             var interviewCandidate = _interviewProcessServices.GetCandidateById(id);
+            if(interviewCandidate == null)
+            {
+                TempData["ErrorMessage"] = $"Candidate details not found with Id {id}";
+            }
             return View(interviewCandidate);
         }
 
